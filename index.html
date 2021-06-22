@@ -4,50 +4,28 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <title>BirdTracker</title>
-
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
       integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
       crossorigin=""
     />
-
     <script
       src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
       integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
       crossorigin=""
     ></script>
-
-    <style>
-      html,
-      body {
-        height: 100%;
-        margin: 0px;
-      }
-
-      #BirdTrackerMap {
-        height: 90%;
-      }
-    </style>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
   </head>
   <body>
-    <h1>Test fgText</h1>
+    <nav>
+      <h1>BirdTracker</h1>
+      <li><a href="/impressum.html" class="nav-link">Impressum</a></li>
+    </nav>
     <div id="BirdTrackerMap"></div>
-
-    <script>
-      const attribution =
-        '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-
-      const mymap = L.map("BirdTrackerMap").setView([51.163361, 10.447683], 6);
-      const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-      const tiles = L.tileLayer(tileUrl, { attribution });
-      tiles.addTo(mymap);
-    </script>
+    <script src="/main.js"></script>
   </body>
 </html>
-<!--Lukas commit-->
-<!--Leon commit-->
-<!--Jennifer commit-->
-<!--Patrick commit-->
-<!--Janny commit-->
