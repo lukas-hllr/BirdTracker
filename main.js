@@ -8,18 +8,13 @@ tiles.addTo(mymap);
 var marker;
 var layerGroup = L.layerGroup().addTo(mymap); //contains a layergroup of all markers
 L.Control.geocoder().addTo(mymap); //location searchbar
-var btn = document.getElementById('remove')
-//delets only the last marker on mousewheel press
-window.addEventListener("auxclick", function (e) {
-  mymap.removeLayer(marker);
-});
 
 // add's a marker to the map
 mymap.on("click", function (e) {
   marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(layerGroup);
   marker.bindPopup(); //no function yet
   marker.on('click', function(e){
-      e.target.removeFrom(mymap)
+      e.target.removeFrom(mymap) // delete a marker from the map
   });
 });
 
