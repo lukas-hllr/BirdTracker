@@ -12,10 +12,14 @@ L.Control.geocoder().addTo(mymap); //location searchbar
 // add's a marker to the map
 mymap.on("click", function (e) {
   marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(layerGroup);
-  marker.bindPopup(); //no function yet
-  marker.on('click', function(e){
-      e.target.removeFrom(mymap) // delete a marker from the map
-  });
+  marker.bindPopup("<input type='button' value='Delete' class='marker-delete-button'/>");
+  marker.on("popupopen", onPopupOpen);
 });
 
-
+function onPopupOpen() {
+  var tempMarker = this;
+  // To remove marker on click of delete
+  $(".marker-delete-button:visible").click(function () {
+      mymap.removeLayer(tempMarker);
+  });
+}
