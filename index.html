@@ -6,13 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-    <title>BirdTracker</title>
+    <link rel="stylesheet" href="/components/L.Control.Sidebar.css">
+    <link rel="stylesheet" href="/components/easy-button.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
       integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
       crossorigin=""
     />
+    <title>BirdTracker</title>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script
       src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
@@ -20,12 +23,14 @@
       crossorigin=""
     ></script>
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="/components/L.Control.Sidebar.js"></script>
+    <script src="/components/easy-button.js"></script>
   </head>
   <body>
     <div class="modal">
       <div class="modal-contant">
         <div class="close">+</div>
-       <img src="/logo_transparent.png" alt="BirdTracker" class="logo">
+       <img src="/picures/logo_transparent.png" alt="BirdTracker" class="logo">
         <form action="">
           <input type="text" placeholder="Vogelart" id="birdSpecies">
           <input type="number" placeholder="Anzahl" min="1" id="number">
@@ -43,6 +48,9 @@
       <li><a href="/impressum.html" class="nav-link">Impressum</a></li>
     </nav>
     
+    <div id="sidebar">
+     
+  </div>
     <div id="BirdTrackerMap">
 
     </div>
