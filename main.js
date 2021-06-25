@@ -20,7 +20,6 @@ var road;
 var city;
 var town;
 var EasyButton;
-var btnDelete = document.getElementById('delete')
 var layerGroup = L.layerGroup().addTo(mymap); //contains a layergroup of all markers
 var searchbar = L.Control.geocoder({ expand: 'click', defaultMarkGeocode: false }).on('markgeocode', function(e) { 
   mymap.setView(e.geocode.center, 20); }).addTo(mymap) //location searchbar
@@ -35,7 +34,7 @@ var sidebar = L.control.sidebar('sidebar', {
 mymap.addControl(sidebar);
 
 
-document.querySelector('.close').addEventListener('click', function(){
+document.querySelector('.closebtn').addEventListener('click', function(){
   document.querySelector('.modal').style.display = 'none';
 })
 

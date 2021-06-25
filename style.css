@@ -94,7 +94,7 @@ textarea{
   resize: none;
   font-family:"Poppins", sans-serif; 
 }
-.close{
+.closebtn{
   position: absolute;
   top: 0;
   right: 14px;
