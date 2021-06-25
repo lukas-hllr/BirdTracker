@@ -87,8 +87,6 @@ function change(){
 var test = document.getElementById('suche').value
 console.log(test)
 $.get('//nominatim.openstreetmap.org/search?format=json&q='+test, function(data){
-      console.log()
-      console.log(data) 
       mymap.setView([data[0].lat, data[0].lon],20)
       
     });
