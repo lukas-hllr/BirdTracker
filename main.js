@@ -85,9 +85,24 @@ EasyButton = L.easyButton('fa-exchange', function(){
 }).addTo(mymap)
 function change(){
 var test = document.getElementById('suche').value
+console.log(test)
 $.get('//nominatim.openstreetmap.org/search?format=json&q='+test, function(data){
-      // mymap.setView([data.lat, data.lng],20)
-      console.log(data)
+      console.log()
+      console.log(data) 
+      mymap.setView([data[0].lat, data[0].lon],20)
+      
     });
 
 }
+
+
+var searchControl = L.esri.Geocoding.geosearch().addTo(mymap);
+
+  var results = L.layerGroup().addTo(mymap);
+
+  searchControl.on('results', function (data) {
+    results.clearLayers();
+    for (var i = data.results.length - 1; i >= 0; i--) {
+      results.addLayer(L.marker(data.results[i].latlng));
+    }
+  });
