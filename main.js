@@ -96,13 +96,4 @@ $.get('//nominatim.openstreetmap.org/search?format=json&q='+test, function(data)
 }
 
 
-var searchControl = L.esri.Geocoding.geosearch().addTo(mymap);
 
-  var results = L.layerGroup().addTo(mymap);
-
-  searchControl.on('results', function (data) {
-    results.clearLayers();
-    for (var i = data.results.length - 1; i >= 0; i--) {
-      results.addLayer(L.marker(data.results[i].latlng));
-    }
-  });
