@@ -27,6 +27,7 @@ function onPopupOpen() {
       mymap.removeLayer(marker);
 }
 
+
 var sidebar = L.control.sidebar('sidebar', {
   position: 'left'
 });
@@ -80,4 +81,13 @@ mymap.on('click', function (e) {
 
 EasyButton = L.easyButton('fa-exchange', function(){
   sidebar.toggle();
+  sidebar.setContent('<input id="suche"></input>' + '<button onclick="change()">submit</button>')
 }).addTo(mymap)
+function change(){
+var test = document.getElementById('suche').value
+$.get('//nominatim.openstreetmap.org/search?format=json&q='+test, function(data){
+      // mymap.setView([data.lat, data.lng],20)
+      console.log(data)
+    });
+
+}
