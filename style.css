@@ -102,6 +102,7 @@ textarea{
   transform: rotate(45deg);
   font-weight: bold;
   cursor: pointer;
+  z-index: 2000;
 }
 .delete{
   background-color: rgb(98, 170, 253);
@@ -123,4 +124,14 @@ textarea{
   font-family: "Poppins", sans-serif;
   font-weight: bold; 
   font-size: 14px;
+}
+#close{
+  position: absolute;
+  top: 0;
+  right: 14px;
+  font-size: 42px;
+  transform: rotate(45deg);
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 2000;
 }

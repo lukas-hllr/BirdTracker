@@ -19,18 +19,21 @@ var houseNumber
 var road;
 var city;
 var town;
+var EasyButton;
+var btnDelete = document.getElementById('delete')
 var layerGroup = L.layerGroup().addTo(mymap); //contains a layergroup of all markers
-L.Control.geocoder({ expand: 'click', defaultMarkGeocode: true }).on('markgeocode', function(e) { 
-  mymap.setView(e.geocode.center, 20
-    
-); }).addTo(mymap); //location searchbar
+var searchbar = L.Control.geocoder({ expand: 'click', defaultMarkGeocode: false }).on('markgeocode', function(e) { 
+  mymap.setView(e.geocode.center, 20); }).addTo(mymap) //location searchbar
 function onPopupOpen() {
-  var tempMarker = this;
-  // To remove marker on click of delete
-  $(".delete:visible").click(function () {
-      mymap.removeLayer(tempMarker);
-  });
+      mymap.removeLayer(marker);
 }
+
+var sidebar = L.control.sidebar('sidebar', {
+  position: 'left'
+});
+
+mymap.addControl(sidebar);
+
 
 document.querySelector('.close').addEventListener('click', function(){
   document.querySelector('.modal').style.display = 'none';
@@ -46,29 +49,36 @@ function Save(){
   description = document.getElementById('description').value;
   document.querySelector('.modal').style.display = 'none';
   marker = L.marker([lat, lng]).addTo(layerGroup);
-  marker.on("popupopen", onPopupOpen);
-  if(houseNumber !== undefined && road !== undefined && city !== undefined){
-    marker.bindPopup(city + '<br />'+ road + houseNumber + '<br />' + birdSpecies + '<br />' + number + '<br />' + temp + '<br />' + date + '<br />' + loc + '<br />' + type + '<br />' + description + '<br />' + "<button type='button' class='delete'>Löschen</button>"+ '<br />').openPopup();
-  }else if(houseNumber !== undefined && road !== undefined && town !== undefined){
-    marker.bindPopup(town + '<br />'+ road +  +houseNumber + '<br />' + birdSpecies + '<br />' + number + '<br />' + temp + '<br />' + date + '<br />' + loc + '<br />' + type + '<br />' + description + '<br />' + "<button type='button' class='delete'>Löschen</button>"+ '<br />').openPopup();
-  }else{
-    marker.bindPopup( birdSpecies + '<br />' + number + '<br />' + temp + '<br />' + date + '<br />' + loc + '<br />' + type + '<br />' + description + '<br />' + "<button type='button' class='delete'>Löschen</button>"+ '<br />').openPopup();
-  }
-
-}
-mymap.on('click', function (e) {
-  lat = e.latlng.lat;
-  lng = e.latlng.lng; 
-  document.querySelector('.modal').style.display = 'flex';
-  $.get('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+ lat +'&lon='+ lng +'', function(data){
+  marker.on('click', function(e){
+    marker = e.target;
+    lat = e.latlng.lat;
+    lng = e.latlng.lng;
+    console.log(lat, lng)
+    $.get('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+ lat +'&lon='+ lng +'', function(data){
     console.log(data.address);
     houseNumber = data.address.house_number;
     road = data.address.road;
     city = data.address.city;
     town = data.address.town;
+    if(houseNumber !== undefined && road !== undefined && city !== undefined){
+      sidebar.setContent(city + '<br />'+ road + ' ' +houseNumber + '<br />' + birdSpecies + '<br />' + number + '<br />' + temp + '<br />' + date + '<br />' + loc + '<br />' + type + '<br />' + description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />')
+    }else if(houseNumber !== undefined && road !== undefined && town !== undefined){
+      sidebar.setContent(town + '<br />'+ road + ' '+ houseNumber + '<br />' + birdSpecies + '<br />' + number + '<br />' + temp + '<br />' + date + '<br />' + loc + '<br />' + type + '<br />' + description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />')
+    }else{
+      sidebar.setContent( birdSpecies + '<br />' + number + '<br />' + temp + '<br />' + date + '<br />' + loc + '<br />' + type + '<br />' + description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />')
+    }
+    sidebar.show();
+    
 });
+    
+  })
+}
+mymap.on('click', function (e) {
+  lat = e.latlng.lat;
+  lng = e.latlng.lng; 
+  document.querySelector('.modal').style.display = 'flex';
 });
 
-
-  
-
+EasyButton = L.easyButton('fa-exchange', function(){
+  sidebar.toggle();
+}).addTo(mymap)
