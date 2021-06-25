@@ -28,18 +28,18 @@ function onPopupOpen() {
 }
 
 
-var sidebar = L.control.sidebar('sidebar', {
+var sidebar = L.control.sidebar('sidebar', { // Position der Sidebar
   position: 'left'
 });
 
 mymap.addControl(sidebar);
 
 
-document.querySelector('.closebtn').addEventListener('click', function(){
+document.querySelector('.closebtn').addEventListener('click', function(){ //schließt das Fenster
   document.querySelector('.modal').style.display = 'none';
 })
 
-function Save(){
+function Save(){                                                    // Speicherung der Nutzereingaben
   birdSpecies = document.getElementById('birdSpecies').value;
   number = document.getElementById('number').value;
   temp = document.getElementById('temp').value;
@@ -48,8 +48,8 @@ function Save(){
   type = document.getElementById('type').value;
   description = document.getElementById('description').value;
   document.querySelector('.modal').style.display = 'none';
-  marker = L.marker([lat, lng]).addTo(layerGroup);
-  marker.on('click', function(e){
+  marker = L.marker([lat, lng]).addTo(layerGroup);                
+  marker.on('click', function(e){                             //setzt den Marker
     marker = e.target;
     lat = e.latlng.lat;
     lng = e.latlng.lng;
@@ -60,37 +60,35 @@ function Save(){
     road = data.address.road;
     city = data.address.city;
     town = data.address.town;
-    if(houseNumber !== undefined && road !== undefined && city !== undefined){
+    if(houseNumber !== undefined && road !== undefined && city !== undefined){ // schreibt die Daten in die Sidebar
       sidebar.setContent(city + '<br />'+ road + ' ' +houseNumber + '<br />' + birdSpecies + '<br />' + number + '<br />' + temp + '<br />' + date + '<br />' + loc + '<br />' + type + '<br />' + description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />')
     }else if(houseNumber !== undefined && road !== undefined && town !== undefined){
       sidebar.setContent(town + '<br />'+ road + ' '+ houseNumber + '<br />' + birdSpecies + '<br />' + number + '<br />' + temp + '<br />' + date + '<br />' + loc + '<br />' + type + '<br />' + description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />')
     }else{
       sidebar.setContent( birdSpecies + '<br />' + number + '<br />' + temp + '<br />' + date + '<br />' + loc + '<br />' + type + '<br />' + description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />')
     }
-    sidebar.show();
+    sidebar.show(); 
     
 });
     
   })
 }
-mymap.on('click', function (e) {
+mymap.on('click', function (e) { // lässt das Eingabefenster erscheinen
   lat = e.latlng.lat;
   lng = e.latlng.lng; 
   document.querySelector('.modal').style.display = 'flex';
 });
 
-EasyButton = L.easyButton('fa-exchange', function(){
+EasyButton = L.easyButton('fa-exchange', function(){  // Sidebar mit Inhalt wird erstellt bzw. initialisiert
   sidebar.toggle();
   sidebar.setContent('<input id="suche"></input>' + '<button onclick="change()">submit</button>')
 }).addTo(mymap)
-function change(){
+
+function change(){ // führt die Suche über die Sidebar durch
 var test = document.getElementById('suche').value
-console.log(test)
 $.get('//nominatim.openstreetmap.org/search?format=json&q='+test, function(data){
       mymap.setView([data[0].lat, data[0].lon],20)
-      
     });
-
 }
 
 
