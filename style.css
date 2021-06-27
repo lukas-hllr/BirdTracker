@@ -2,11 +2,13 @@ html,
 body {
   height: 100%;
   margin: 0px;
+ 
 }
 
 #BirdTrackerMap {
-  height: 91%;
+  height: 92%;
   z-index: 1;
+  background-color: #AAD3DF;
 }
 nav {
   display: flex;
@@ -134,4 +136,51 @@ textarea{
   font-weight: bold;
   cursor: pointer;
   z-index: 2000;
+}
+
+.box{
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: 20%;
+}
+.sideSuche{
+  position: relative;
+  display: inline-block;
+  font-size: 18px;
+  box-sizing: border-box;
+  transition: .5s;
+}
+.sideSuche[type="text"]{
+  background: #fff;
+  width: 200px;
+  height: 30px;
+  outline: none;
+  padding: 0 25px;
+  border-width: 1px ;
+  border-radius: 25px 0 0 25px;
+}
+.sideSuche[type="button"]{
+  position: relative;
+  left: -1px;
+  border-radius:   0 25px 25px 0;
+  width: 70px;
+  height: 30px;
+  border-width: 1px;
+  outline: none;
+  cursor: pointer;
+  background-color: rgb(98, 170, 253);
+  color: #fff;
+}
+.sideSuche[type="button"]:hover{
+  background-color: white;
+  color: rgb(98, 170, 253);;
+}
+
+.background{
+  width: 100%;
+  height: auto;
+  background-color: #AAD3DF;
 }

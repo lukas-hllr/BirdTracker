@@ -21,11 +21,12 @@ var city;
 var town;
 var EasyButton;
 var layerGroup = L.layerGroup().addTo(mymap); //contains a layergroup of all markers
-var searchbar = L.Control.geocoder({ expand: 'click', defaultMarkGeocode: false }).on('markgeocode', function(e) { 
-  mymap.setView(e.geocode.center, 20); }).addTo(mymap) //location searchbar
 function onPopupOpen() {
       mymap.removeLayer(marker);
+      sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>')
 }
+mymap.options.minZoom = 3; // maximaler zoom raus 
+mymap.options.maxZoom = 18; // maximaler zoom rein
 
 
 var sidebar = L.control.sidebar('sidebar', { // Position der Sidebar
@@ -61,11 +62,11 @@ function Save(){                                                    // Speicheru
     city = data.address.city;
     town = data.address.town;
     if(houseNumber !== undefined && road !== undefined && city !== undefined){ // schreibt die Daten in die Sidebar
-      sidebar.setContent(city + '<br />'+ road + ' ' +houseNumber + '<br />' + birdSpecies + '<br />' + number + '<br />' + temp + '<br />' + date + '<br />' + loc + '<br />' + type + '<br />' + description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />')
+      sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' + '<br />' + city + '<br />'+ road + ' ' +houseNumber + '<br />' + birdSpecies + '<br />' + number + '<br />' + temp + '<br />' + date + '<br />' + loc + '<br />' + type + '<br />' + description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />' + '</div>')
     }else if(houseNumber !== undefined && road !== undefined && town !== undefined){
-      sidebar.setContent(town + '<br />'+ road + ' '+ houseNumber + '<br />' + birdSpecies + '<br />' + number + '<br />' + temp + '<br />' + date + '<br />' + loc + '<br />' + type + '<br />' + description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />')
+      sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' + '<br />' + town + '<br />'+ road + ' '+ houseNumber + '<br />' + birdSpecies + '<br />' + number + '<br />' + temp + '<br />' + date + '<br />' + loc + '<br />' + type + '<br />' + description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />' + '</div>')
     }else{
-      sidebar.setContent( birdSpecies + '<br />' + number + '<br />' + temp + '<br />' + date + '<br />' + loc + '<br />' + type + '<br />' + description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />')
+      sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' + '<br />' + birdSpecies + '<br />' + number + '<br />' + temp + '<br />' + date + '<br />' + loc + '<br />' + type + '<br />' + description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />' + '</div>')
     }
     sidebar.show(); 
     
@@ -81,15 +82,19 @@ mymap.on('click', function (e) { // lässt das Eingabefenster erscheinen
 
 EasyButton = L.easyButton('fa-exchange', function(){  // Sidebar mit Inhalt wird erstellt bzw. initialisiert
   sidebar.toggle();
-  sidebar.setContent('<input id="suche"></input>' + '<button onclick="change()">submit</button>')
+  sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form></div>')
 }).addTo(mymap)
 
 function change(){ // führt die Suche über die Sidebar durch
-var test = document.getElementById('suche').value
+var test = document.getElementsByClassName('sideSuche')[0].value
+console.log(test)
 $.get('//nominatim.openstreetmap.org/search?format=json&q='+test, function(data){
-      mymap.setView([data[0].lat, data[0].lon],20)
+      mymap.setView([data[0].lat, data[0].lon],18)
     });
 }
+
+
+
 
 
 
