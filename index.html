@@ -4,51 +4,71 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BirdTracker</title>
-
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"
+    />
+    <link rel="stylesheet" href="/components/L.Control.Sidebar.css" />
+    <link rel="stylesheet" href="/components/easy-button.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
       integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
       crossorigin=""
     />
-
+    <title>BirdTracker</title>
+    <script
+      type="text/javascript"
+      src="http://code.jquery.com/jquery-1.7.1.min.js"
+    ></script>
     <script
       src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
       integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
       crossorigin=""
     ></script>
-
-    <style>
-      html,
-      body {
-        height: 100%;
-        margin: 0px;
-      }
-
-      #BirdTrackerMap {
-        height: 90%;
-      }
-    </style>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="/components/L.Control.Sidebar.js"></script>
+    <script src="/components/easy-button.js"></script>
   </head>
   <body>
-    <h1>Test fgText</h1>
+    <div class="modal">
+      <div class="modal-contant">
+        <div class="closebtn">+</div>
+        <img
+          src="/picures/logo_transparent.png"
+          alt="BirdTracker"
+          class="logo"
+        />
+        <form action="">
+          <input type="text" placeholder="Vogelart" id="birdSpecies" />
+          <input type="number" placeholder="Anzahl" min="1" id="number" />
+          <input type="number" placeholder="Temperatur" id="temp" />
+          <input type="date" placeholder="Datum" id="date" />
+          <input type="text" placeholder="Aufhängeort" id="loc" />
+          <input type="text" placeholder="Brutkastenart" id="type" />
+          <textarea
+            placeholder="Beschreibung"
+            rows="3"
+            cols="40"
+            id="description"
+          ></textarea>
+          <button type="button" class="safe" onclick="Save()">Speichern</button>
+        </form>
+      </div>
+    </div>
+    <nav>
+      <h1>BirdTracker</h1>
+      <li><a href="/impressum.html" class="nav-link">Impressum</a></li>
+    </nav>
+    <div id="sidebar"></div>
     <div id="BirdTrackerMap"></div>
-
-    <script>
-      const attribution =
-        '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-
-      const mymap = L.map("BirdTrackerMap").setView([51.163361, 10.447683], 6);
-      const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-      const tiles = L.tileLayer(tileUrl, { attribution });
-      tiles.addTo(mymap);
-    </script>
+    <div class="background"></div>
+    <!--hintergrund farbe angeglichen an BirdTrackerMap wasser farbe für einheitlichen look-->
+    <script src="/main.js"></script>
   </body>
 </html>
-<!--Lukas commit-->
-<!--Leon commit-->
-<!--Peter commit-->
-<!--Jennifer commit-->
-<!--Patrick commit-->
-<!--Janny commit-->

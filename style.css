@@ -1,0 +1,186 @@
+html,
+body {
+  height: 100%;
+  margin: 0px;
+ 
+}
+
+#BirdTrackerMap {
+  height: 92%;
+  z-index: 1;
+  background-color: #AAD3DF;
+}
+nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 8vh;
+  font-family: "Poppins", sans-serif;
+  background-color: #5d4954;
+  color: white;
+  list-style: none;
+}
+.impressum{
+margin: 3%;
+font-family: Arial, Helvetica, sans-serif;
+}
+.nav-link{
+  list-style: none;
+  text-decoration: none;
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+.nav-link::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #fff;
+  transition: width .3s;
+}
+.nav-link:hover::after {
+  width: 100%;
+  transition: .3s;
+}
+.modal{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+.modal-contant{
+  width: 500px;
+  height: 400px;
+  background-color: white;
+  border-radius: 4px;
+  text-align: center;
+  padding: 20px;
+  position: relative;
+}
+.logo{
+  width: 100px;
+  height: 100px;
+}
+.safe{
+  background-color: rgb(98, 170, 253);
+  border: 2px solid white;
+  border-radius: 30px;
+  text-decoration: none;
+  padding: 10px 28px;
+  color: white;
+  margin-top: 10px;
+  display: inline-block;
+  font-family: "Poppins", sans-serif; 
+}
+.safe:hover{
+  background-color: white;
+  color: rgb(98, 170, 253);
+  border: 2px solid rgb(98, 170, 253);
+}
+input{
+  width: 50%;
+  display: block;
+  margin: 10px auto;
+  font-family:"Poppins", sans-serif; 
+}
+textarea{
+  width: 50%;
+  display: block;
+  margin: 10px auto;
+  resize: none;
+  font-family:"Poppins", sans-serif; 
+}
+.closebtn{
+  position: absolute;
+  top: 0;
+  right: 14px;
+  font-size: 42px;
+  transform: rotate(45deg);
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 2000;
+}
+.delete{
+  background-color: rgb(98, 170, 253);
+  border: 2px solid white;
+  border-radius: 30px;
+  text-decoration: none;
+  padding: 10px 28px;
+  color: white;
+  margin-top: 10px;
+  font-family: "Poppins", sans-serif; 
+}
+.delete:hover{
+  background-color: white;
+  color: rgb(98, 170, 253);
+  border: 2px solid rgb(98, 170, 253);
+}
+.leaflet-popup-content{
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+  font-weight: bold; 
+  font-size: 14px;
+}
+#close{
+  position: absolute;
+  top: 0;
+  right: 14px;
+  font-size: 42px;
+  transform: rotate(45deg);
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 2000;
+}
+
+.box{
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: 20%;
+}
+.sideSuche{
+  position: relative;
+  display: inline-block;
+  font-size: 18px;
+  box-sizing: border-box;
+  transition: .5s;
+}
+.sideSuche[type="text"]{
+  background: #fff;
+  width: 200px;
+  height: 30px;
+  outline: none;
+  padding: 0 25px;
+  border-width: 1px ;
+  border-radius: 25px 0 0 25px;
+}
+.sideSuche[type="button"]{
+  position: relative;
+  left: -1px;
+  border-radius:   0 25px 25px 0;
+  width: 70px;
+  height: 30px;
+  border-width: 1px;
+  outline: none;
+  cursor: pointer;
+  background-color: rgb(98, 170, 253);
+  color: #fff;
+}
+.sideSuche[type="button"]:hover{
+  background-color: white;
+  color: rgb(98, 170, 253);;
+}
+
+.background{
+  width: 100%;
+  height: auto;
+  background-color: #AAD3DF;
+}
