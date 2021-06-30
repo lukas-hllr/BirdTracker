@@ -2,9 +2,17 @@ const attribution =
   '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 const mymap = L.map("BirdTrackerMap").setView([51.163361, 10.447683], 6);
+
 const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const tiles = L.tileLayer(tileUrl, { attribution });
+  
+const heatmapTileUrl = "http://localhost:6969/heatmap-server/example.svg";
+const heatmapTiles = L.tileLayer(heatmapTileUrl);
+heatmapTiles.setZIndex(2);
+  
 tiles.addTo(mymap);
+heatmapTiles.addTo(mymap);
+
 var marker;
 var lat; //marker coordinates
 var lng; //marker coordinates
