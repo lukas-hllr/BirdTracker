@@ -245,15 +245,6 @@ class Bird {
   }
 }
 
-function replacer(i, val) {
-  switch (i) {
-    case "marker":
-      return undefined;
-    default:
-      return val;
-  }
-}
-
 function getXML(x) {
   //marker vorher entfernen der macht nur ärger..
   var json = JSON.stringify(x, function (i, val) {
@@ -265,10 +256,10 @@ function getXML(x) {
     }
   });
   //wieder zsm fügen
-  var json2 = { testarray: [] };
-  json2.testarray = JSON.parse(json);
+  var json2 = { arrayOfBirds: [] };
+  json2.arrayOfBirds = JSON.parse(json);
 
-  return json2xml(jsonn2, "   ");
+  return json2xml(json2, "   ");
 }
 
 function json2xml(o, tab) {
