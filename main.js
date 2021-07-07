@@ -21,6 +21,7 @@ var city;
 var town;
 var EasyButton;
 var layerGroup = L.layerGroup().addTo(mymap); //contains a layergroup of all markers
+var bird = new Object
 function onPopupOpen() {
       mymap.removeLayer(marker);
       sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>')
@@ -41,32 +42,32 @@ document.querySelector('.closebtn').addEventListener('click', function(){ //schl
 })
 
 function Save(){                                                    // Speicherung der Nutzereingaben
-  birdSpecies = document.getElementById('birdSpecies').value;
-  number = document.getElementById('number').value;
-  temp = document.getElementById('temp').value;
-  date = document.getElementById('date').value;
-  loc = document.getElementById('loc').value;
-  type = document.getElementById('type').value;
-  description = document.getElementById('description').value;
+  bird.birdSpecies = document.getElementById('birdSpecies').value;
+  bird.number = document.getElementById('number').value;
+  bird.temp = document.getElementById('temp').value;
+  bird.date = document.getElementById('date').value;
+  bird.loc = document.getElementById('loc').value;
+  bird.type = document.getElementById('type').value;
+  bird.description = document.getElementById('description').value;
   document.querySelector('.modal').style.display = 'none';
   marker = L.marker([lat, lng]).addTo(layerGroup);                
   marker.on('click', function(e){                             //setzt den Marker
     marker = e.target;
-    lat = e.latlng.lat;
-    lng = e.latlng.lng;
-    console.log(lat, lng)
-    $.get('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+ lat +'&lon='+ lng +'', function(data){
+    bird.lat = e.latlng.lat;
+    bird.lng = e.latlng.lng;
+    console.log(bird.lat, bird.lng)
+    $.get('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+ bird.lat +'&lon='+ bird.lng +'', function(data){
     console.log(data.address);
     houseNumber = data.address.house_number;
     road = data.address.road;
     city = data.address.city;
     town = data.address.town;
     if(houseNumber !== undefined && road !== undefined && city !== undefined){ // schreibt die Daten in die Sidebar
-      sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' + '<br />'+ 'Stadt: ' + city + '<br />' + 'Straße: ' + road + ' ' +houseNumber + '<br />' + 'Vogelart: ' + birdSpecies + '<br />' + 'Anzahl: ' + number + '<br />' + 'Temperatur: ' + temp + '<br />' + 'Datum: ' + date + '<br />' + 'Aufhängeort: ' + loc + '<br />' + 'Brutkastenart: ' + type + '<br />' + 'Beschreibung: ' + description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />' + '</div>')
+      sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' + '<br />'+ 'Stadt: ' + city + '<br />' + 'Straße: ' + road + ' ' +houseNumber + '<br />' + 'Vogelart: ' + bird.birdSpecies + '<br />' + 'Anzahl: ' + bird.number + '<br />' + 'Temperatur: ' + bird.temp + '<br />' + 'Datum: ' + bird.date + '<br />' + 'Aufhängeort: ' + bird.loc + '<br />' + 'Brutkastenart: ' + bird.type + '<br />' + 'Beschreibung: ' + bird.description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />' + '</div>')
     }else if(houseNumber !== undefined && road !== undefined && town !== undefined){
-      sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' + '<br />' + 'Stadt: ' + town + '<br />' + 'Straße: ' + road + ' '+ houseNumber + '<br />' + 'Vogelart: ' + birdSpecies + '<br />' + 'Anzahl: ' + number + '<br />' + 'Temperatur: ' + temp + '<br />' + 'Datum: ' + date + '<br />' + 'Aufhängeort: ' + loc + '<br />' + 'Brutkastenart: ' + type + '<br />' + 'Beschreibung: ' + description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />' + '</div>')
+      sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' + '<br />' + 'Stadt: ' + town + '<br />' + 'Straße: ' + road + ' '+ houseNumber + '<br />' + 'Vogelart: ' + bird.birdSpecies + '<br />' + 'Anzahl: ' + bird.number + '<br />' + 'Temperatur: ' + bird.temp + '<br />' + 'Datum: ' + bird.date + '<br />' + 'Aufhängeort: ' + bird.loc + '<br />' + 'Brutkastenart: ' + bird.type + '<br />' + 'Beschreibung: ' + bird.description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />' + '</div>')
     }else{
-      sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' + '<br />' + 'Vogelart: ' + birdSpecies + '<br />' + 'Anzahl: ' + number + '<br />' + 'Temperatur: ' + temp + '<br />' + 'Datum: ' + date + '<br />' + 'Aufhängeort: ' + loc + '<br />' + 'Brutkastenart: ' + type + '<br />' + 'Beschreibung: ' + description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />' + '</div>')
+      sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' + '<br />' + 'Vogelart: ' + bird.birdSpecies + '<br />' + 'Anzahl: ' + bird.number + '<br />' + 'Temperatur: ' + bird.temp + '<br />' + 'Datum: ' + bird.date + '<br />' + 'Aufhängeort: ' + bird.loc + '<br />' + 'Brutkastenart: ' + bird.type + '<br />' + 'Beschreibung: ' + bird.description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />' + '</div>')
     }
     sidebar.show(); 
     
