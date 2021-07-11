@@ -1,0 +1,54 @@
+<ArrayOfBird xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BirdTrackerProject">
+	<Bird>
+		<Adress i:nil="true" />
+		<BoxKind i:nil="true" />
+		<Compass i:nil="true" />
+		<Id>0</Id>
+		<Latitude i:nil="true" />
+		<Longitude i:nil="true" />
+		<NestDate i:nil="true" />
+		<NumberChicks i:nil="true" />
+		<Plz i:nil="true" />
+		<Species i:nil="true" />
+		<Temperature i:nil="true" />
+	</Bird>
+	<Bird>
+		<Adress i:nil="true" />
+		<BoxKind i:nil="true" />
+		<Compass i:nil="true" />
+		<Id>1</Id>
+		<Latitude i:nil="true" />
+		<Longitude i:nil="true" />
+		<NestDate i:nil="true" />
+		<NumberChicks i:nil="true" />
+		<Plz i:nil="true" />
+		<Species i:nil="true" />
+		<Temperature i:nil="true" />
+	</Bird>
+	<Bird id ="test">
+		<Adress>K</Adress>
+		<BoxKind>T</BoxKind>
+		<Compass>n</Compass>
+		<Id>2</Id>
+		<Latitude i:nil="true" />
+		<Longitude i:nil="true" />
+		<NestDate>0001-01-01T00:00:00</NestDate>
+		<NumberChicks>2</NumberChicks>
+		<Plz>76131</Plz>
+		<Species>A</Species>
+		<Temperature>20</Temperature>
+	</Bird>
+	<Bird>
+		<Adress>koenigsstrasse 12</Adress>
+		<BoxKind>t</BoxKind>
+		<Compass>n</Compass>
+		<Id>3</Id>
+		<Latitude i:nil="true" />
+		<Longitude i:nil="true" />
+		<NestDate>0001-01-01T00:00:00</NestDate>
+		<NumberChicks>2</NumberChicks>
+		<Plz>76131</Plz>
+		<Species>Amsel</Species>
+		<Temperature>20</Temperature>
+	</Bird>
+</ArrayOfBird>
