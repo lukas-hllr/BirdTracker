@@ -14,23 +14,23 @@
         </coord-bottom-right>
     </viewport>
     <birds>
-        <coordinate id="0">
+        <coordinate>
             <Latitude>49.00108</Latitude>
             <Longitude>8.398447</Longitude>
         </coordinate>
-        <coordinate id="1">
+        <coordinate>
             <Latitude>48.99849</Latitude>
             <Longitude>8.400593</Longitude>
         </coordinate>
-        <coordinate id="2">
+        <coordinate>
             <Latitude>48.9968</Latitude>
             <Longitude>8.401451</Longitude>
         </coordinate>
-        <coordinate id="3">
+        <coordinate>
             <Latitude>48.990437</Latitude>
             <Longitude>8.419476</Longitude>
         </coordinate>
-        <coordinate id="4">
+        <coordinate>
             <Latitude>49.014198</Latitude>
             <Longitude>8.404369</Longitude>
         </coordinate>
