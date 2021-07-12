@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="stylesheet.xsl"?>
+<data>
+    <viewport>
+        <width>1920</width>
+        <height>826</height>
+        <coord-top-left>
+            <Latitude>49.02498</Latitude>
+            <Longitude>8.325148</Longitude>
+        </coord-top-left>
+        <coord-bottom-right>
+            <Latitude>48.976442</Latitude>
+            <Longitude>8.489943</Longitude>
+        </coord-bottom-right>
+    </viewport>
+    <birds>
+        <coordinate>
+            <Latitude>49.00108</Latitude>
+            <Longitude>8.398447</Longitude>
+        </coordinate>
+        <coordinate>
+            <Latitude>48.99849</Latitude>
+            <Longitude>8.400593</Longitude>
+        </coordinate>
+        <coordinate>
+            <Latitude>48.9968</Latitude>
+            <Longitude>8.401451</Longitude>
+        </coordinate>
+        <coordinate>
+            <Latitude>48.990437</Latitude>
+            <Longitude>8.419476</Longitude>
+        </coordinate>
+        <coordinate>
+            <Latitude>49.014198</Latitude>
+            <Longitude>8.404369</Longitude>
+        </coordinate>
+    </birds>
+</data>

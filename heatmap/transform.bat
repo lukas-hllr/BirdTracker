@@ -1,2 +1,2 @@
-Rem Script zum manuellen tranformieren der XML Dateien mit dem XSLT Prozessor Saxon (Java-Version)
-java -jar E:\Saxon\saxon-he-10.5.jar -s:data.xml -xsl:stylesheet.xsl -o:output.svg
+Rem Script zum manuellen transformieren der XML Dateien mit dem XSLT Prozessor Saxon (Java-Version)
+java -jar E:\Saxon\saxon-he-10.5.jar -s:data.xml -xsl:stylesheet.xsl -o:output.svg vp_tl_lng="8.325148" vp_tl_lat="49.02498" vp_br_lng="8.489943" vp_br_lat="48.976442" vp_width="1920" vp_height="826"
