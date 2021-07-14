@@ -28,7 +28,8 @@
             <!-- filter="url(#gaussian-blur)" -->
 
 
-                <xsl:for-each select="Bird[Longitude gt $vp_tl_lng and Longitude lt $vp_br_lng and Latitude lt $vp_tl_lat and Latitude gt $vp_br_lat]">
+                <xsl:for-each select="Bird[number(Longitude) gt $vp_tl_lng and number(Longitude) lt $vp_br_lng and number(Latitude) lt $vp_tl_lat and number(Latitude) gt $vp_br_lat]">
+                <!--Longitude gt $vp_tl_lng and Longitude lt $vp_br_lng and Latitude lt $vp_tl_lat and Latitude gt $vp_br_lat-->
 
                     <xsl:variable name="bird_lng" select="Longitude"/>
                     <xsl:variable name="bird_lat" select="Latitude"/>

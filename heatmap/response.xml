@@ -1,4 +1,5 @@
-<ArrayOfBird xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BirdTrackerProject">
+<?xml version="1.0" encoding="UTF-8"?>
+<ArrayOfBird xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<Bird>
 		<Adress>TEST</Adress>
 		<BoxKind>TEST</BoxKind>

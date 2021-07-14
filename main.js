@@ -217,4 +217,20 @@ mymap.on("dragend", function onDragEnd() {
       "\nSW:\t\t" +
       mymap.getBounds().getSouthEast()
   );
+
+  console.log(
+    SaxonJS.transform({
+      stylesheetLocation: "heatmap/stylesheet.sef.json",
+      sourceLocation: "heatmap/data_small.xml",
+      destination: "serialized",
+      stylesheetParams: {
+        vp_tl_lng: mymap.getBounds().getNorthWest().lng,
+        vp_tl_lat: mymap.getBounds().getNorthWest().lat,
+        vp_br_lng: mymap.getBounds().getSouthEast().lng,
+        vp_br_lat: mymap.getBounds().getSouthEast().lat,
+        vp_width: mymap.getSize().x,
+        vp_height: mymap.getSize().y,
+      },
+    }).principalResult
+  );
 });
