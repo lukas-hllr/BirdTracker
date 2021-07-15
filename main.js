@@ -21,7 +21,27 @@ var city;
 var town;
 var EasyButton;
 var layerGroup = L.layerGroup().addTo(mymap); //contains a layergroup of all markers
-var bird = new Object
+let bird = new Object
+
+/*fetch('https://localhost:44357/Birds',{
+  method: 'get',
+  mode: 'no-cors',
+  cache: 'default',
+  headers:{
+    
+  }
+})
+.then(res => {
+  if(res.ok){
+    console.log('SUCCESS')
+    return res.json()
+  }else{
+    console.log('Not Successful')
+  }
+})*/
+
+onLoad();
+
 function onPopupOpen() {
       mymap.removeLayer(marker);
       sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>')
@@ -55,7 +75,6 @@ function Save(){                                                    // Speicheru
     marker = e.target;
     bird.lat = e.latlng.lat;
     bird.lng = e.latlng.lng;
-    console.log(bird.lat, bird.lng)
     $.get('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+ bird.lat +'&lon='+ bird.lng +'', function(data){
     console.log(data.address);
     houseNumber = data.address.house_number;
@@ -94,12 +113,32 @@ $.get('//nominatim.openstreetmap.org/search?format=json&q='+test, function(data)
     });
 }
 
-
-fetch('https://localhost:44357/Birds')
-  .then(response => response.json())
-  .then(data => console.log(data));
-
-
-
+function array(item, index, arr){
+  birdSpecies = item.species 
+  number = item.numberChicks
+  temp =  item.temperature
+  date = item.nestDate
+  loc = item.compass
+  type = item.boxKind
+  //description = item.
+  marker = L.marker([item.latitude, item.longitude]).addTo(layerGroup);
+  
+  }
+function onLoad(){
+  const Http = new XMLHttpRequest();
+  const url='https://localhost:44357/Birds';
+  Http.open("GET",url);
+  Http.responseType = 'xml'
+  Http.onload = () => {
+    const data = XML.parse(Http.response);
+    console.log(data[0])
+    data.forEach(array) 
+  };
+  Http.send();
+  
+}
+marker.on('click', function(e){                             //setzt den Marker
+  marker = e.target;
+})
 
 
