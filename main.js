@@ -126,11 +126,13 @@ function array(item, index, arr){
   }
 function onLoad(){
   const Http = new XMLHttpRequest();
-  const url='https://localhost:44357/Birds';
+  const url='https://localhost:5001/Birds';
+  
   Http.open("GET",url);
-  Http.responseType = 'xml'
+  Http.setRequestHeader("Accept", "application/xml")
+  // Http.responseType = 'xml'
   Http.onload = () => {
-    const data = XML.parse(Http.response);
+    const data = Http.response;
     console.log(data[0])
     data.forEach(array) 
   };
