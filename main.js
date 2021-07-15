@@ -125,7 +125,7 @@ function array(item, index, arr){
   }
 function onLoad(){
   const Http = new XMLHttpRequest();
-  const url='https://localhost:44357/Birds';
+  const url='https://localhost:44357/Birds';    //falls es nicht klappt mit port 5001 ausprobieren
   
   Http.open("GET",url);
   Http.setRequestHeader("Accept", "application/xml")
