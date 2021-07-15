@@ -121,26 +121,29 @@ function array(item, index, arr){
   loc = item.compass
   type = item.boxKind
   //description = item.
-  marker = L.marker([item.latitude, item.longitude]).addTo(layerGroup);
   
   }
 function onLoad(){
   const Http = new XMLHttpRequest();
-  const url='https://localhost:5001/Birds';
+  const url='https://localhost:44357/Birds';
   
   Http.open("GET",url);
   Http.setRequestHeader("Accept", "application/xml")
   // Http.responseType = 'xml'
   Http.onload = () => {
-    const data = Http.response;
-    console.log(data[0])
-    data.forEach(array) 
+    const data = Http.responseXML;
+    console.log(data)
+    var lati = data.getElementsByTagName('Bird');
+    for(var i=0; i < lati.length; i++){
+      var lon = lati[i].children[9].textContent
+      var lat = lati[i].children[10].textContent
+      console.log(lon)
+      console.log(lat)
+      marker = L.marker([lat, lon]).addTo(layerGroup);
+    }
   };
   Http.send();
   
 }
-marker.on('click', function(e){                             //setzt den Marker
-  marker = e.target;
-})
 
 
