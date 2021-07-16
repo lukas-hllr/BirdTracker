@@ -15,7 +15,7 @@ var date;
 var loc;
 var type;
 var description;
-var houseNumber
+var houseNumber;
 var road;
 var city;
 var town;
@@ -24,56 +24,41 @@ var layerGroup = L.layerGroup().addTo(mymap); //contains a layergroup of all mar
 var birdArray;
 let bird = new Object([]);
 
-
-/*fetch('https://localhost:44357/Birds',{
-  method: 'get',
-  mode: 'no-cors',
-  cache: 'default',
-  headers:{
-    
-  }
-})
-.then(res => {
-  if(res.ok){
-    console.log('SUCCESS')
-    return res.json()
-  }else{
-    console.log('Not Successful')
-  }
-})*/
-
 onLoad();
 
 function onPopupOpen() {
-      mymap.removeLayer(marker);
-      sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>')
+  mymap.removeLayer(marker);
+  sidebar.setContent(
+    '<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>'
+  );
 }
-mymap.options.minZoom = 3; // maximaler zoom raus 
+mymap.options.minZoom = 3; // maximaler zoom raus
 mymap.options.maxZoom = 18; // maximaler zoom rein
 
-
-var sidebar = L.control.sidebar('sidebar', { // Position der Sidebar
-  position: 'left'
+var sidebar = L.control.sidebar("sidebar", {
+  // Position der Sidebar
+  position: "left",
 });
 
 mymap.addControl(sidebar);
 
+document.querySelector(".closebtn").addEventListener("click", function () {
+  //schließt das Fenster
+  document.querySelector(".modal").style.display = "none";
+});
 
-document.querySelector('.closebtn').addEventListener('click', function(){ //schließt das Fenster
-  document.querySelector('.modal').style.display = 'none';
-})
-
-function Save(){                                                    // Speicherung der Nutzereingaben
-  bird.birdSpecies = document.getElementById('birdSpecies').value;
-  bird.number = document.getElementById('number').value;
-  bird.temp = document.getElementById('temp').value;
-  bird.date = document.getElementById('date').value;
-  bird.loc = document.getElementById('loc').value;
-  bird.type = document.getElementById('type').value;
-  bird.description = document.getElementById('description').value;
-  document.querySelector('.modal').style.display = 'none';
-  marker = L.marker([lat, lng]).addTo(layerGroup);                
-  marker.on('click', function(e){                             //setzt den Marker
+function Save() {
+  // Speicherung der Nutzereingaben
+  bird.birdSpecies = document.getElementById("birdSpecies").value;
+  bird.number = document.getElementById("number").value;
+  bird.temp = document.getElementById("temp").value;
+  bird.date = document.getElementById("date").value;
+  bird.loc = document.getElementById("loc").value;
+  bird.type = document.getElementById("type").value;
+  bird.description = document.getElementById("description").value;
+  document.querySelector(".modal").style.display = "none";
+  L.marker([lat, lng]).addTo(layerGroup);
+  /*marker.on('click', function(e){                             //setzt den Marker
     marker = e.target;
     bird.lat = e.latlng.lat;
     bird.lng = e.latlng.lng;
@@ -94,87 +79,105 @@ function Save(){                                                    // Speicheru
     
 });
     
-  })
+  })*/
 }
-mymap.on('click', function (e) { // lässt das Eingabefenster erscheinen
+mymap.on("click", function (e) {
+  // lässt das Eingabefenster erscheinen
   lat = e.latlng.lat;
-  lng = e.latlng.lng; 
-  document.querySelector('.modal').style.display = 'flex';
+  lng = e.latlng.lng;
+  document.querySelector(".modal").style.display = "flex";
 });
 
-EasyButton = L.easyButton('fa-exchange', function(){  // Sidebar mit Inhalt wird erstellt bzw. initialisiert
+EasyButton = L.easyButton("fa-exchange", function () {
+  // Sidebar mit Inhalt wird erstellt bzw. initialisiert
   sidebar.toggle();
-  sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form></div>')
-}).addTo(mymap)
+  sidebar.setContent(
+    '<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form></div>'
+  );
+}).addTo(mymap);
 
-function change(){ // führt die Suche über die Sidebar durch
-var test = document.getElementsByClassName('sideSuche')[0].value
-console.log(test)
-$.get('//nominatim.openstreetmap.org/search?format=json&q='+test, function(data){
-      mymap.setView([data[0].lat, data[0].lon],18)
-    });
+function change() {
+  // führt die Suche über die Sidebar durch
+  var test = document.getElementsByClassName("sideSuche")[0].value;
+  console.log(test);
+  $.get(
+    "//nominatim.openstreetmap.org/search?format=json&q=" + test,
+    function (data) {
+      mymap.setView([data[0].lat, data[0].lon], 18);
+    }
+  );
 }
 
-function array(item, index, arr){
-  birdSpecies = item.species 
-  number = item.numberChicks
-  temp =  item.temperature
-  date = item.nestDate
-  loc = item.compass
-  type = item.boxKind
-  //description = item.
-  
-  }
-function onLoad(){
+function onLoad() {
   const Http = new XMLHttpRequest();
-  const url='https://localhost:44357/Birds';    //falls es nicht klappt mit port 5001 ausprobieren
-  
-  Http.open("GET",url);
-  Http.setRequestHeader("Accept", "application/xml")
+  const url = "https://localhost:44357/Birds"; //falls es nicht klappt mit port 5001 ausprobieren
+
+  Http.open("GET", url);
+  Http.setRequestHeader("Accept", "application/xml");
   // Http.responseType = 'xml'
   Http.onload = () => {
     const data = Http.responseXML;
-    console.log(data)
-    var lati = data.getElementsByTagName('Bird');
-    birdArray = new Array(lati.length)
-    for(var i=0; i < lati.length; i++){
-      var lon = lati[i].children[9].textContent
-      var lat = lati[i].children[10].textContent
+    console.log(data);
+    var lati = data.getElementsByTagName("Bird");
+    birdArray = new Array(lati.length);
+    for (var i = 0; i < lati.length; i++) {
+      var lon = lati[i].children[9].textContent;
+      var lat = lati[i].children[10].textContent;
       marker = L.marker([lat, lon]).addTo(layerGroup);
-      marker.on('click', function(e){
-        lat = e.latlng.lat
-        lng = e.latlng.lng
-        console.log(lat,lng)
-        var lati = data.getElementsByTagName('Bird');
-        //for(var i=0; i < lati.length; i++){
-          var lng1 = lati[0].children[9].textContent
-          var lat1 = lati[0].children[10].textContent
-          console.log(lat1, lng1)
-          if(lat === lat1 && lng === lng1){
-            console.log('true')
-          }else{
-            console.log('false')
+      marker.on("click", function (e) {
+        lat = parseFloat(e.latlng.lat).toFixed(12);
+        lng = parseFloat(e.latlng.lng).toFixed(12);
+        console.log(lat, lng);
+        var lati = data.getElementsByTagName("Bird");
+        for (var i = 0; i < lati.length; i++) {
+          var lng1 = lati[i].children[9].textContent;
+          var lat1 = lati[i].children[10].textContent;
+          if (lat === lat1 && lng === lng1) {
+            console.log("true");
+            console.log(lat1, lng1);
+            console.log(lati[i]);
+            // schreibt die Daten in die Sidebar
+            sidebar.setContent(
+              '<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' +
+                "<br />" +
+                "Stadt: " +
+                city +
+                "<br />" +
+                "Straße: " +
+                lati[i].children[2].textContent +
+                " " +
+                houseNumber +
+                "<br />" +
+                "Vogelart: " +
+                lati[i].children[1].textContent +
+                "<br />" +
+                "Anzahl: " +
+                lati[i].children[6].textContent +
+                "<br />" +
+                "Temperatur: " +
+                lati[i].children[5].textContent +
+                "<br />" +
+                "Datum: " +
+                lati[i].children[4].textContent +
+                "<br />" +
+                "Aufhängeort: " +
+                lati[i].children[8].textContent +
+                "<br />" +
+                "Brutkastenart: " +
+                lati[i].children[7].textContent +
+                "<br />" +
+                "Beschreibung: " +
+                bird.description +
+                "<br />" +
+                "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>" +
+                "<br />" +
+                "</div>"
+            );
+            sidebar.show();
           }
-
-        //}
-
-
-
-
-
-      })
-      /*bird = [{
-        lon: lon,
-        lat: lat
-      }]
-      birdArray[i] = bird
-      console.log(birdArray)*/
+        }
+      });
     }
-    
   };
   Http.send();
-
-  
 }
-
-
