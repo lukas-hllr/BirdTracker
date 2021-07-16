@@ -21,7 +21,9 @@ var city;
 var town;
 var EasyButton;
 var layerGroup = L.layerGroup().addTo(mymap); //contains a layergroup of all markers
-let bird = new Object
+var birdArray;
+let bird = new Object([]);
+
 
 /*fetch('https://localhost:44357/Birds',{
   method: 'get',
@@ -134,15 +136,44 @@ function onLoad(){
     const data = Http.responseXML;
     console.log(data)
     var lati = data.getElementsByTagName('Bird');
+    birdArray = new Array(lati.length)
     for(var i=0; i < lati.length; i++){
       var lon = lati[i].children[9].textContent
       var lat = lati[i].children[10].textContent
-      console.log(lon)
-      console.log(lat)
       marker = L.marker([lat, lon]).addTo(layerGroup);
+      marker.on('click', function(e){
+        lat = e.latlng.lat
+        lng = e.latlng.lng
+        console.log(lat,lng)
+        var lati = data.getElementsByTagName('Bird');
+        //for(var i=0; i < lati.length; i++){
+          var lng1 = lati[0].children[9].textContent
+          var lat1 = lati[0].children[10].textContent
+          console.log(lat1, lng1)
+          if(lat === lat1 && lng === lng1){
+            console.log('true')
+          }else{
+            console.log('false')
+          }
+
+        //}
+
+
+
+
+
+      })
+      /*bird = [{
+        lon: lon,
+        lat: lat
+      }]
+      birdArray[i] = bird
+      console.log(birdArray)*/
     }
+    
   };
   Http.send();
+
   
 }
 
