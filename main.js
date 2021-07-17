@@ -179,6 +179,7 @@ function change() {
   );
 }
 
+
 function onLoad() {
   const Http = new XMLHttpRequest();
   const url = "https://localhost:5001/Birds"; //falls es nicht klappt mit port 5001 ausprobieren bzw 44357
