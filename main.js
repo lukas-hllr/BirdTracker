@@ -111,9 +111,9 @@ function getAdress (){
     else if(birdArray[2] !== undefined && birdArray[3] === undefined && birdArray[4] === undefined){
       birdArray[2] = birdArray[2]
     }
-    else if(birdArray[2] === undefined && birdArray[3] === undefined && birdArray[4] !== undefined){
-      birdArray[2] = birdArray[4]
-    }
+    // else if(birdArray[2] === undefined && birdArray[3] === undefined && birdArray[4] !== undefined){
+    //   birdArray[2] = birdArray[4]
+    // }
     else{
       birdArray[2] = " "
     }
