@@ -1,1 +1,1 @@
-C:\Users\lukas\AppData\Roaming\npm\xslt3 -t -xsl:heatmap/stylesheet.xsl -export:stylesheet.sef.json -nogo
+xslt3 -t -xsl:stylesheet.xsl -export:stylesheet.sef.json -nogo

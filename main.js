@@ -6,12 +6,15 @@ const mymap = L.map("BirdTrackerMap").setView([51.163361, 10.447683], 6);
 const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const tiles = L.tileLayer(tileUrl, { attribution });
 
-const heatmapTileUrl = "http://localhost:6969/heatmap-server/example.svg";
-const heatmapTiles = L.tileLayer(heatmapTileUrl);
-heatmapTiles.setZIndex(2);
+var heatmapBounds = L.latLngBounds(
+  mymap.getBounds().getNorthWest(),
+  mymap.getBounds().getSouthEast()
+);
+var heatmap = L.svgOverlay(getHeatmapSVG(), heatmapBounds);
+heatmap.setZIndex(2);
 
 tiles.addTo(mymap);
-heatmapTiles.addTo(mymap);
+heatmap.addTo(mymap);
 
 var marker;
 var lat; //marker coordinates
@@ -218,19 +221,43 @@ mymap.on("dragend", function onDragEnd() {
       mymap.getBounds().getSouthEast()
   );
 
-  console.log(
-    SaxonJS.transform({
-      stylesheetLocation: "heatmap/stylesheet.sef.json",
-      sourceLocation: "heatmap/data_small.xml",
-      destination: "serialized",
-      stylesheetParams: {
-        vp_tl_lng: mymap.getBounds().getNorthWest().lng,
-        vp_tl_lat: mymap.getBounds().getNorthWest().lat,
-        vp_br_lng: mymap.getBounds().getSouthEast().lng,
-        vp_br_lat: mymap.getBounds().getSouthEast().lat,
-        vp_width: mymap.getSize().x,
-        vp_height: mymap.getSize().y,
-      },
-    }).principalResult
-  );
+  console.log(getHeatmapSVG());
+
+  redrawHeatmap();
 });
+
+mymap.on("zoomend", function () {
+  redrawHeatmap();
+});
+
+function getHeatmapSVG() {
+  return SaxonJS.transform({
+    execution: "async",
+    stylesheetLocation: "heatmap/stylesheet.sef.json",
+    sourceLocation: "heatmap/data.xml",
+    destination: "document",
+    stylesheetParams: {
+      vp_tl_lng: mymap.getBounds().getNorthWest().lng,
+      vp_tl_lat: mymap.getBounds().getNorthWest().lat,
+      vp_br_lng: mymap.getBounds().getSouthEast().lng,
+      vp_br_lat: mymap.getBounds().getSouthEast().lat,
+      vp_width: mymap.getSize().x,
+      vp_height: mymap.getSize().y,
+      pixel_size: 8,
+      cr: "4",
+    },
+  }).principalResult.firstElementChild;
+}
+
+function redrawHeatmap() {
+  mymap.removeLayer(heatmap);
+
+  heatmapBounds = L.latLngBounds(
+    mymap.getBounds().getNorthWest(),
+    mymap.getBounds().getSouthEast()
+  );
+  heatmap = L.svgOverlay(getHeatmapSVG(), heatmapBounds);
+  heatmap.setZIndex(2);
+
+  heatmap.addTo(mymap);
+}
