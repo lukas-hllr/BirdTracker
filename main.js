@@ -8,21 +8,23 @@ tiles.addTo(mymap);
 var marker;
 var lat; //marker coordinates
 var lng; //marker coordinates
-var birdSpecies;
+var Species;
 var number;
 var temp;
 var date;
+var village
 var loc;
 var type;
 var description;
 var houseNumber;
-var road;
+var Adress;
 var city;
 var town;
 var EasyButton;
 var layerGroup = L.layerGroup().addTo(mymap); //contains a layergroup of all markers
 var birdArray;
 let bird = new Object([]);
+bird.id = 1;  // wird von der Datenbank entsprechend zugewiesen
 
 onLoad();
 
@@ -48,16 +50,82 @@ document.querySelector(".closebtn").addEventListener("click", function () {
 });
 
 function Save() {
+  var birdArray1 = getAdress()
+  console.log(birdArray1)
   // Speicherung der Nutzereingaben
-  bird.birdSpecies = document.getElementById("birdSpecies").value;
-  bird.number = document.getElementById("number").value;
-  bird.temp = document.getElementById("temp").value;
-  bird.date = document.getElementById("date").value;
-  bird.loc = document.getElementById("loc").value;
-  bird.type = document.getElementById("type").value;
+  bird.Species = document.getElementById("birdSpecies").value;
+  if(birdArray1[1] === undefined) { 
+    bird.Adress = " ";
+  } else{
+    bird.Adress = birdArray1[1].value;
+  }
+  bird.Plz =  89473;
+  bird.NestDate = document.getElementById("date").value;
+  bird.Temperature = document.getElementById("temp").value;
+  bird.NumberChicks = document.getElementById("number").value;
+  bird.BoxKind = document.getElementById("type").value;
+  bird.Compass = document.getElementById("loc").value;
+  bird.Longitude = lng;
+  bird.Latitude = lat;
   bird.description = document.getElementById("description").value;
+  // if(birdArray1[0] === undefined){
+  //   bird.houseNumber = " "
+  // } else {
+    bird.houseNumber = birdArray1[0].value;
+  // }
+  // if(birdArray1[2] === undefined){
+  //   bird.city = " "
+  // } else {
+    bird.city = birdArray1[2];
+  // }
+  
+  console.log(bird.city)
+
   document.querySelector(".modal").style.display = "none";
   L.marker([lat, lng]).addTo(layerGroup);
+  // console.log(bird)
+
+
+  var xml1 = '<?xml version="1.0" encoding="utf-8"> \n <bird>\n' +  js2xml(bird) +'\n</bird>';
+  console.log(xml1)
+}
+
+function getAdress (){
+  $.get('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+ lat +'&lon='+ lng +'', function(data){
+    console.log(data.address)
+    birdArray[0] = data.address.house_number;
+    birdArray[1] = data.address.road;
+    birdArray[2] = data.address.city;
+    birdArray[3] = data.address.town;
+    // birdArray[4] = data.address.village;
+    console.log(birdArray)
+    if(birdArray[0]=== undefined){
+      birdArray[0] = " "
+    }
+    if (birdArray[1] === undefined){
+      birdArray[1] = " "
+    }
+    if(birdArray[2] === undefined && birdArray[3] !== undefined && birdArray[4] === undefined){
+      birdArray[2] = birdArray[3]
+    }
+    else if(birdArray[2] !== undefined && birdArray[3] === undefined && birdArray[4] === undefined){
+      birdArray[2] = birdArray[2]
+    }
+    else if(birdArray[2] === undefined && birdArray[3] === undefined && birdArray[4] !== undefined){
+      birdArray[2] = birdArray[4]
+    }
+    else{
+      birdArray[2] = " "
+    }
+  })
+  return birdArray;
+}
+
+
+
+
+  
+ 
   /*marker.on('click', function(e){                             //setzt den Marker
     marker = e.target;
     bird.lat = e.latlng.lat;
@@ -77,10 +145,13 @@ function Save() {
     }
     sidebar.show(); 
     
-});
+  });
     
   })*/
-}
+
+
+
+
 mymap.on("click", function (e) {
   // lässt das Eingabefenster erscheinen
   lat = e.latlng.lat;
@@ -99,7 +170,7 @@ EasyButton = L.easyButton("fa-exchange", function () {
 function change() {
   // führt die Suche über die Sidebar durch
   var test = document.getElementsByClassName("sideSuche")[0].value;
-  console.log(test);
+  // console.log(test);
   $.get(
     "//nominatim.openstreetmap.org/search?format=json&q=" + test,
     function (data) {
@@ -110,7 +181,7 @@ function change() {
 
 function onLoad() {
   const Http = new XMLHttpRequest();
-  const url = "https://localhost:44357/Birds"; //falls es nicht klappt mit port 5001 ausprobieren
+  const url = "https://localhost:5001/Birds"; //falls es nicht klappt mit port 5001 ausprobieren bzw 44357
 
   Http.open("GET", url);
   Http.setRequestHeader("Accept", "application/xml");
@@ -180,4 +251,9 @@ function onLoad() {
     }
   };
   Http.send();
+}
+function js2xml(js, wraptag){
+  if(js instanceof Object){
+    return js2xml(Object.keys(js).map(function(key){return js2xml(js[key], key);}).join('\n'), wraptag);
+   }else{return ((wraptag)?'<'+ wraptag+'>' : '' ) + js + ((wraptag)?'</'+ wraptag+'>' : '' );}
 }
