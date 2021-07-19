@@ -51,7 +51,7 @@ document.querySelector(".closebtn").addEventListener("click", function () {
 
 function Save() {
   var birdArray1 = getAdress()
-  console.log(birdArray1)
+  // console.log(birdArray1)
   Adress = birdArray1[1];
   Plz = birdArray1[5]
   houseNumber = birdArray1[0]
@@ -60,16 +60,16 @@ function Save() {
   // Speicherung der Nutzereingaben
   bird.Species = document.getElementById("birdSpecies").value;
   if(Adress !== undefined) { 
-    bird.Adress = " ";
+    bird.Adress = Adress;
   } else{
-    bird.Adress =  Adress //birdArray1[1].value;
+    bird.Adress =  " " //birdArray1[1].value;
   }
   console.log(bird.Adress)
   if (Plz !== undefined){
-    bird.Plz = " ";
+    bird.Plz = Plz;
   }
   else{
-    bird.Plz = Plz //birdArray1[5];
+    bird.Plz = " " //birdArray1[5];
   }
   console.log(bird.Plz)
   bird.NestDate = document.getElementById("date").value;
