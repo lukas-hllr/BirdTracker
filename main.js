@@ -51,7 +51,7 @@ document.querySelector(".closebtn").addEventListener("click", function () {
 
 function Save() {
   var birdArray1 = getAdress()
-  // console.log(birdArray1)
+  console.log(birdArray1)
   Adress = birdArray1[1];
   Plz = birdArray1[5]
   houseNumber = birdArray1[0]
@@ -59,19 +59,19 @@ function Save() {
 
   // Speicherung der Nutzereingaben
   bird.Species = document.getElementById("birdSpecies").value;
-  if(Adress !== undefined) { 
+  // if(Adress !== undefined) { 
     bird.Adress = Adress;
-  } else{
-    bird.Adress =  " " //birdArray1[1].value;
-  }
-  console.log(bird.Adress)
-  if (Plz !== undefined){
+  // } else{
+  //   bird.Adress =  " " //birdArray1[1].value;
+  // }
+  // console.log(bird.Adress)
+  // if (Plz !== undefined){
     bird.Plz = Plz;
-  }
-  else{
-    bird.Plz = " " //birdArray1[5];
-  }
-  console.log(bird.Plz)
+  // }
+  // else{
+  //   bird.Plz = " " //birdArray1[5];
+  // }
+  // console.log(bird.Plz)
   bird.NestDate = document.getElementById("date").value;
   bird.Temperature = document.getElementById("temp").value;
   bird.NumberChicks = document.getElementById("number").value;
@@ -80,18 +80,18 @@ function Save() {
   bird.Longitude = lng;
   bird.Latitude = lat;
   bird.description = document.getElementById("description").value;
-  if(houseNumber !== undefined){
+  // if(houseNumber !== undefined){
     bird.houseNumber = houseNumber
-  } else {
-    bird.houseNumber = " " //birdArray1[0];
-  }
-  console.log(bird.houseNumber)
-  if(city !== undefined){
+  // } else {
+  //   bird.houseNumber = " " //birdArray1[0];
+  // }
+  // console.log(bird.houseNumber)
+  // if(city !== undefined){
     bird.city = city
-  } else {
-    bird.city = " " //birdArray1[2];
-  }  
-  console.log(bird.city)
+  // } else {
+  //   bird.city = " " //birdArray1[2];
+  // }  
+  // console.log(bird.city)
 
   
   
@@ -113,7 +113,7 @@ function getAdress (){
     birdArray[2] = data.address.city;
     birdArray[3] = data.address.town;
     birdArray[5] = data.address.postcode;
-    // birdArray[4] = data.address.village;
+    birdArray[4] = data.address.village;
     console.log(birdArray)
     if(birdArray[0]=== undefined){
       birdArray[0] = " "
