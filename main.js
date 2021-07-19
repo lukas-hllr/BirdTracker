@@ -23,6 +23,7 @@ var town;
 var EasyButton;
 var layerGroup = L.layerGroup().addTo(mymap); //contains a layergroup of all markers
 var birdArray;
+var array = new Array(6);
 let bird = new Object([]);
 bird.id = 1;  // wird von der Datenbank entsprechend zugewiesen
 
@@ -52,21 +53,21 @@ document.querySelector(".closebtn").addEventListener("click", function () {
 function Save() {
   var birdArray1 = getAdress()
   console.log(birdArray1)
-  Adress = birdArray1[1];
-  Plz = birdArray1[5]
-  houseNumber = birdArray1[0]
-  city = birdArray1[2]
+  // var Adresse = ;
+  // Plz = birdArray1[5]
+  // houseNumber = birdArray1[0]
+  // city = birdArray1[2]
 
   // Speicherung der Nutzereingaben
   bird.Species = document.getElementById("birdSpecies").value;
   // if(Adress !== undefined) { 
-    bird.Adress = Adress;
+    bird.Adress = birdArray1[1];
   // } else{
   //   bird.Adress =  " " //birdArray1[1].value;
   // }
   // console.log(bird.Adress)
   // if (Plz !== undefined){
-    bird.Plz = Plz;
+    bird.Plz = birdArray1[5];
   // }
   // else{
   //   bird.Plz = " " //birdArray1[5];
@@ -79,15 +80,15 @@ function Save() {
   bird.Compass = document.getElementById("loc").value;
   bird.Longitude = lng;
   bird.Latitude = lat;
-  bird.description = document.getElementById("description").value;
+  bird.Message = document.getElementById("description").value;
   // if(houseNumber !== undefined){
-    bird.houseNumber = houseNumber
+    bird.houseNumber = birdArray1[0]
   // } else {
   //   bird.houseNumber = " " //birdArray1[0];
   // }
   // console.log(bird.houseNumber)
   // if(city !== undefined){
-    bird.city = city
+    bird.city = birdArray1[2]
   // } else {
   //   bird.city = " " //birdArray1[2];
   // }  
@@ -98,23 +99,44 @@ function Save() {
 
   document.querySelector(".modal").style.display = "none";
   L.marker([lat, lng]).addTo(layerGroup);
-  // console.log(bird)
+  console.log(bird)
 
 
   var xml1 = '<?xml version="1.0" encoding="utf-8"> \n <bird>\n' +  js2xml(bird) +'\n</bird>';
   console.log(xml1)
+  
+   
+  // configure a request
+  const url1 = "https://localhost:5001/Birds";
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', url1);
+
+  // set headers
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+  // send request
+  xhr.send(xml1);
+
+  // listen for `load` event
+  xhr.onload = () => {
+   console.log(xhr.responseText);
+  }
+  // // Reload the current page, without using the cache
+  // document.location.reload(true);  
+
 }
 
 function getAdress (){
   $.get('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+ lat +'&lon='+ lng +'', function(data){
     console.log(data.address)
-    birdArray[0] = data.address.house_number;
-    birdArray[1] = data.address.road;
-    birdArray[2] = data.address.city;
-    birdArray[3] = data.address.town;
-    birdArray[5] = data.address.postcode;
-    birdArray[4] = data.address.village;
-    console.log(birdArray)
+    array[0] = data.address.house_number.value;
+    array[1] = data.address.road.value;
+    array[2] = data.address.city.value;
+    array[3] = data.address.town.value;
+    array[5] = data.address.postcode.value;
+    array[4] = data.address.village.value;
+    console.log(array)
     if(birdArray[0]=== undefined){
       birdArray[0] = " "
     }
@@ -127,13 +149,59 @@ function getAdress (){
     else if(birdArray[2] !== undefined && birdArray[3] === undefined && birdArray[4] === undefined){
       birdArray[2] = birdArray[2]
     }
-    // else if(birdArray[2] === undefined && birdArray[3] === undefined && birdArray[4] !== undefined){
-    //   birdArray[2] = birdArray[4]
-    // }
+    else if(birdArray[2] === undefined && birdArray[3] === undefined && birdArray[4] !== undefined){
+      birdArray[2] = birdArray[4]
+    }
     else{
       birdArray[2] = " "
     }
   })
+  // bird.Species = document.getElementById("birdSpecies").value;
+  // // if(Adress !== undefined) { 
+  //   bird.Adress = birdArray[1];
+  // // } else{
+  // //   bird.Adress =  " " //birdArray1[1].value;
+  // // }
+  // // console.log(bird.Adress)
+  // // if (Plz !== undefined){
+  //   bird.Plz = birdArray[5];
+  // // }
+  // // else{
+  // //   bird.Plz = " " //birdArray1[5];
+  // // }
+  // // console.log(bird.Plz)
+  // bird.NestDate = document.getElementById("date").value;
+  // bird.Temperature = document.getElementById("temp").value;
+  // bird.NumberChicks = document.getElementById("number").value;
+  // bird.BoxKind = document.getElementById("type").value;
+  // bird.Compass = document.getElementById("loc").value;
+  // bird.Longitude = lng;
+  // bird.Latitude = lat;
+  // bird.description = document.getElementById("description").value;
+  // // if(houseNumber !== undefined){
+  //   bird.houseNumber = birdArray[0]
+  // // } else {
+  // //   bird.houseNumber = " " //birdArray1[0];
+  // // }
+  // // console.log(bird.houseNumber)
+  // // if(city !== undefined){
+  //   bird.city = birdArray[2]
+  // // } else {
+  // //   bird.city = " " //birdArray1[2];
+  // // }  
+  // // console.log(bird.city)
+
+  
+  
+
+  // document.querySelector(".modal").style.display = "none";
+  // L.marker([lat, lng]).addTo(layerGroup);
+  // console.log(bird)
+
+
+  // var xml1 = '<?xml version="1.0" encoding="utf-8"> \n <bird>\n' +  js2xml(bird) +'\n</bird>';
+  // console.log(xml1)
+
   return birdArray;
 }
 
