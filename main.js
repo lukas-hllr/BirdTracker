@@ -52,14 +52,21 @@ document.querySelector(".closebtn").addEventListener("click", function () {
 function Save() {
   var birdArray1 = getAdress()
   console.log(birdArray1)
+  Adress = birdArray1[1];
+  Plz = birdArray1[5]
+  houseNumber = birdArray1[0]
+  city = birdArray1[2]
+
   // Speicherung der Nutzereingaben
   bird.Species = document.getElementById("birdSpecies").value;
   if(birdArray1[1] === undefined) { 
     bird.Adress = " ";
   } else{
-    bird.Adress = birdArray1[1].value;
+    bird.Adress =  Adress //birdArray1[1].value;
   }
-  bird.Plz =  89473;
+  console.log(bird.Adress)
+  bird.Plz = Plz //birdArray1[5];
+  console.log(bird.Plz)
   bird.NestDate = document.getElementById("date").value;
   bird.Temperature = document.getElementById("temp").value;
   bird.NumberChicks = document.getElementById("number").value;
@@ -71,15 +78,17 @@ function Save() {
   // if(birdArray1[0] === undefined){
   //   bird.houseNumber = " "
   // } else {
-    bird.houseNumber = birdArray1[0].value;
+    bird.houseNumber = houseNumber //birdArray1[0];
+    console.log(bird.houseNumber)
   // }
   // if(birdArray1[2] === undefined){
   //   bird.city = " "
   // } else {
-    bird.city = birdArray1[2];
+    bird.city = city //birdArray1[2];
+    console.log(bird.city)
   // }
   
-  console.log(bird.city)
+  
 
   document.querySelector(".modal").style.display = "none";
   L.marker([lat, lng]).addTo(layerGroup);
@@ -97,6 +106,7 @@ function getAdress (){
     birdArray[1] = data.address.road;
     birdArray[2] = data.address.city;
     birdArray[3] = data.address.town;
+    birdArray[5] = data.address.postcode;
     // birdArray[4] = data.address.village;
     console.log(birdArray)
     if(birdArray[0]=== undefined){
