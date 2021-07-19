@@ -185,7 +185,7 @@ function change() {
 
 function onLoad() {
   const Http = new XMLHttpRequest();
-  const url = "https://localhost:5001/Birds"; //falls es nicht klappt mit port 5001 ausprobieren bzw 44357
+  const url = "https://localhost:44357/Birds"; //falls es nicht klappt mit port 5001 ausprobieren bzw 44357
 
   Http.open("GET", url);
   Http.setRequestHeader("Accept", "application/xml");
@@ -200,6 +200,7 @@ function onLoad() {
       var lat = lati[i].children[10].textContent;
       marker = L.marker([lat, lon]).addTo(layerGroup);
       marker.on("click", function (e) {
+        console.log(lati)
         lat = parseFloat(e.latlng.lat).toFixed(12);
         lng = parseFloat(e.latlng.lng).toFixed(12);
         console.log(lat, lng);
@@ -221,7 +222,7 @@ function onLoad() {
                 "Straße: " +
                 lati[i].children[2].textContent +
                 " " +
-                houseNumber +
+                lati[i].children[11].textContent +
                 "<br />" +
                 "Vogelart: " +
                 lati[i].children[1].textContent +
