@@ -59,13 +59,18 @@ function Save() {
 
   // Speicherung der Nutzereingaben
   bird.Species = document.getElementById("birdSpecies").value;
-  if(birdArray1[1] === undefined) { 
+  if(Adress !== undefined) { 
     bird.Adress = " ";
   } else{
     bird.Adress =  Adress //birdArray1[1].value;
   }
   console.log(bird.Adress)
-  bird.Plz = Plz //birdArray1[5];
+  if (Plz !== undefined){
+    bird.Plz = " ";
+  }
+  else{
+    bird.Plz = Plz //birdArray1[5];
+  }
   console.log(bird.Plz)
   bird.NestDate = document.getElementById("date").value;
   bird.Temperature = document.getElementById("temp").value;
@@ -75,18 +80,19 @@ function Save() {
   bird.Longitude = lng;
   bird.Latitude = lat;
   bird.description = document.getElementById("description").value;
-  // if(birdArray1[0] === undefined){
-  //   bird.houseNumber = " "
-  // } else {
-    bird.houseNumber = houseNumber //birdArray1[0];
-    console.log(bird.houseNumber)
-  // }
-  // if(birdArray1[2] === undefined){
-  //   bird.city = " "
-  // } else {
-    bird.city = city //birdArray1[2];
-    console.log(bird.city)
-  // }
+  if(houseNumber !== undefined){
+    bird.houseNumber = houseNumber
+  } else {
+    bird.houseNumber = " " //birdArray1[0];
+  }
+  console.log(bird.houseNumber)
+  if(city !== undefined){
+    bird.city = city
+  } else {
+    bird.city = " " //birdArray1[2];
+  }  
+  console.log(bird.city)
+
   
   
 
