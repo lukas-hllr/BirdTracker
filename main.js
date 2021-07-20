@@ -102,7 +102,7 @@ function Save() {
   console.log(bird)
 
 
-  var xml1 = '<?xml version="1.0" encoding="utf-8"> \n <bird>\n' +  js2xml(bird) +'\n</bird>';
+  var xml1 = '<Bird>\n' +  js2xml(bird) +'\n</Bird>';
   console.log(xml1)
   
    
@@ -112,8 +112,9 @@ function Save() {
   xhr.open('POST', url1);
 
   // set headers
-  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+  xhr.setRequestHeader("Content-Type", "application/xml");
+  xhr.setRequestHeader("Accept", "application/xml");
+  // xhr.setRequestHeader(
 
   // send request
   xhr.send(xml1);
