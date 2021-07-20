@@ -12,7 +12,7 @@ var Species;
 var number;
 var temp;
 var date;
-var village
+var village;
 var loc;
 var type;
 var description;
@@ -25,7 +25,7 @@ var layerGroup = L.layerGroup().addTo(mymap); //contains a layergroup of all mar
 var birdArray;
 var array = new Array(6);
 let bird = new Object([]);
-bird.id = 1;  // wird von der Datenbank entsprechend zugewiesen
+bird.id = 1; // wird von der Datenbank entsprechend zugewiesen
 
 onLoad();
 
@@ -51,28 +51,13 @@ document.querySelector(".closebtn").addEventListener("click", function () {
 });
 
 function Save() {
-  var birdArray1 = getAdress()
-  console.log(birdArray1)
-  // var Adresse = ;
-  // Plz = birdArray1[5]
-  // houseNumber = birdArray1[0]
-  // city = birdArray1[2]
-
   // Speicherung der Nutzereingaben
+
+  console.log(array)
+
   bird.Species = document.getElementById("birdSpecies").value;
-  // if(Adress !== undefined) { 
-    bird.Adress = birdArray1[1];
-  // } else{
-  //   bird.Adress =  " " //birdArray1[1].value;
-  // }
-  // console.log(bird.Adress)
-  // if (Plz !== undefined){
-    bird.Plz = birdArray1[5];
-  // }
-  // else{
-  //   bird.Plz = " " //birdArray1[5];
-  // }
-  // console.log(bird.Plz)
+  bird.Adress = array[1];
+  bird.Plz = array[5];
   bird.NestDate = document.getElementById("date").value;
   bird.Temperature = document.getElementById("temp").value;
   bird.NumberChicks = document.getElementById("number").value;
@@ -81,35 +66,30 @@ function Save() {
   bird.Longitude = lng;
   bird.Latitude = lat;
   bird.Message = document.getElementById("description").value;
-  // if(houseNumber !== undefined){
-    bird.houseNumber = birdArray1[0]
-  // } else {
-  //   bird.houseNumber = " " //birdArray1[0];
-  // }
-  // console.log(bird.houseNumber)
-  // if(city !== undefined){
-    bird.city = birdArray1[2]
-  // } else {
-  //   bird.city = " " //birdArray1[2];
-  // }  
-  // console.log(bird.city)
+  bird.houseNumber = array[0];
+  if(array[2] === undefined && array[3] === undefined){
+    bird.city = array[4];
+  }
+  if(array[2] === undefined && array[4] === undefined){
+    bird.city = array[3];
+  } 
+  if(array[3] === undefined && array[4] === undefined){
+    bird.city = array[2];
+  }if(array[3] === undefined && array[4] === undefined && array[2] === undefined){
+    bird.city = " "
+  }
 
-  
-  
 
   document.querySelector(".modal").style.display = "none";
   L.marker([lat, lng]).addTo(layerGroup);
-  console.log(bird)
 
+  var xml1 = "<Bird>\n" + js2xml(bird) + "\n</Bird>";
+  console.log(xml1);
 
-  var xml1 = '<Bird>\n' +  js2xml(bird) +'\n</Bird>';
-  console.log(xml1)
-  
-   
   // configure a request
-  const url1 = "https://localhost:5001/Birds";
+  const url1 = "https://localhost:44357/Birds";
   const xhr = new XMLHttpRequest();
-  xhr.open('POST', url1);
+  xhr.open("POST", url1);
 
   // set headers
   xhr.setRequestHeader("Content-Type", "application/xml");
@@ -121,127 +101,36 @@ function Save() {
 
   // listen for `load` event
   xhr.onload = () => {
-   console.log(xhr.responseText);
-  }
+    console.log(xhr.responseText);
+  };
   // // Reload the current page, without using the cache
-  // document.location.reload(true);  
-
+  // document.location.reload(true);
 }
 
-function getAdress (){
-  $.get('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+ lat +'&lon='+ lng +'', function(data){
-    console.log(data.address)
-    array[0] = data.address.house_number.value;
-    array[1] = data.address.road.value;
-    array[2] = data.address.city.value;
-    array[3] = data.address.town.value;
-    array[5] = data.address.postcode.value;
-    array[4] = data.address.village.value;
-    console.log(array)
-    if(birdArray[0]=== undefined){
-      birdArray[0] = " "
+function getAdress() {
+  $.get(
+    "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" +
+      lat +
+      "&lon=" +
+      lng +
+      "",
+    function (data) {
+      array[0] = data.address.house_number;
+      array[1] = data.address.road;
+      array[2] = data.address.city;
+      array[3] = data.address.town;
+      array[5] = data.address.postcode;
+      array[4] = data.address.village;
     }
-    if (birdArray[1] === undefined){
-      birdArray[1] = " "
-    }
-    if(birdArray[2] === undefined && birdArray[3] !== undefined && birdArray[4] === undefined){
-      birdArray[2] = birdArray[3]
-    }
-    else if(birdArray[2] !== undefined && birdArray[3] === undefined && birdArray[4] === undefined){
-      birdArray[2] = birdArray[2]
-    }
-    else if(birdArray[2] === undefined && birdArray[3] === undefined && birdArray[4] !== undefined){
-      birdArray[2] = birdArray[4]
-    }
-    else{
-      birdArray[2] = " "
-    }
-  })
-  // bird.Species = document.getElementById("birdSpecies").value;
-  // // if(Adress !== undefined) { 
-  //   bird.Adress = birdArray[1];
-  // // } else{
-  // //   bird.Adress =  " " //birdArray1[1].value;
-  // // }
-  // // console.log(bird.Adress)
-  // // if (Plz !== undefined){
-  //   bird.Plz = birdArray[5];
-  // // }
-  // // else{
-  // //   bird.Plz = " " //birdArray1[5];
-  // // }
-  // // console.log(bird.Plz)
-  // bird.NestDate = document.getElementById("date").value;
-  // bird.Temperature = document.getElementById("temp").value;
-  // bird.NumberChicks = document.getElementById("number").value;
-  // bird.BoxKind = document.getElementById("type").value;
-  // bird.Compass = document.getElementById("loc").value;
-  // bird.Longitude = lng;
-  // bird.Latitude = lat;
-  // bird.description = document.getElementById("description").value;
-  // // if(houseNumber !== undefined){
-  //   bird.houseNumber = birdArray[0]
-  // // } else {
-  // //   bird.houseNumber = " " //birdArray1[0];
-  // // }
-  // // console.log(bird.houseNumber)
-  // // if(city !== undefined){
-  //   bird.city = birdArray[2]
-  // // } else {
-  // //   bird.city = " " //birdArray1[2];
-  // // }  
-  // // console.log(bird.city)
-
-  
-  
-
-  // document.querySelector(".modal").style.display = "none";
-  // L.marker([lat, lng]).addTo(layerGroup);
-  // console.log(bird)
-
-
-  // var xml1 = '<?xml version="1.0" encoding="utf-8"> \n <bird>\n' +  js2xml(bird) +'\n</bird>';
-  // console.log(xml1)
-
-  return birdArray;
+  );
 }
-
-
-
-
-  
- 
-  /*marker.on('click', function(e){                             //setzt den Marker
-    marker = e.target;
-    bird.lat = e.latlng.lat;
-    bird.lng = e.latlng.lng;
-    $.get('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+ bird.lat +'&lon='+ bird.lng +'', function(data){
-    console.log(data.address);
-    houseNumber = data.address.house_number;
-    road = data.address.road;
-    city = data.address.city;
-    town = data.address.town;
-    if(houseNumber !== undefined && road !== undefined && city !== undefined){ // schreibt die Daten in die Sidebar
-      sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' + '<br />'+ 'Stadt: ' + city + '<br />' + 'Straße: ' + road + ' ' +houseNumber + '<br />' + 'Vogelart: ' + bird.birdSpecies + '<br />' + 'Anzahl: ' + bird.number + '<br />' + 'Temperatur: ' + bird.temp + '<br />' + 'Datum: ' + bird.date + '<br />' + 'Aufhängeort: ' + bird.loc + '<br />' + 'Brutkastenart: ' + bird.type + '<br />' + 'Beschreibung: ' + bird.description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />' + '</div>')
-    }else if(houseNumber !== undefined && road !== undefined && town !== undefined){
-      sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' + '<br />' + 'Stadt: ' + town + '<br />' + 'Straße: ' + road + ' '+ houseNumber + '<br />' + 'Vogelart: ' + bird.birdSpecies + '<br />' + 'Anzahl: ' + bird.number + '<br />' + 'Temperatur: ' + bird.temp + '<br />' + 'Datum: ' + bird.date + '<br />' + 'Aufhängeort: ' + bird.loc + '<br />' + 'Brutkastenart: ' + bird.type + '<br />' + 'Beschreibung: ' + bird.description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />' + '</div>')
-    }else{
-      sidebar.setContent('<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' + '<br />' + 'Vogelart: ' + bird.birdSpecies + '<br />' + 'Anzahl: ' + bird.number + '<br />' + 'Temperatur: ' + bird.temp + '<br />' + 'Datum: ' + bird.date + '<br />' + 'Aufhängeort: ' + bird.loc + '<br />' + 'Brutkastenart: ' + bird.type + '<br />' + 'Beschreibung: ' + bird.description + '<br />' + "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>"+ '<br />' + '</div>')
-    }
-    sidebar.show(); 
-    
-  });
-    
-  })*/
-
-
-
 
 mymap.on("click", function (e) {
   // lässt das Eingabefenster erscheinen
   lat = e.latlng.lat;
   lng = e.latlng.lng;
   document.querySelector(".modal").style.display = "flex";
+  getAdress();
 });
 
 EasyButton = L.easyButton("fa-exchange", function () {
@@ -255,7 +144,6 @@ EasyButton = L.easyButton("fa-exchange", function () {
 function change() {
   // führt die Suche über die Sidebar durch
   var test = document.getElementsByClassName("sideSuche")[0].value;
-  // console.log(test);
   $.get(
     "//nominatim.openstreetmap.org/search?format=json&q=" + test,
     function (data) {
@@ -264,46 +152,43 @@ function change() {
   );
 }
 
-
 function onLoad() {
   const Http = new XMLHttpRequest();
-  const url = "https://localhost:5001/Birds"; //falls es nicht klappt mit port 5001 ausprobieren bzw 44357
+  const url = "https://localhost:44357/Birds"; //falls es nicht klappt mit port 5001 ausprobieren bzw 44357
 
   Http.open("GET", url);
   Http.setRequestHeader("Accept", "application/xml");
   // Http.responseType = 'xml'
   Http.onload = () => {
     const data = Http.responseXML;
-    console.log(data);
     var lati = data.getElementsByTagName("Bird");
+    console.log(lati)
     birdArray = new Array(lati.length);
     for (var i = 0; i < lati.length; i++) {
       var lon = lati[i].children[9].textContent;
       var lat = lati[i].children[10].textContent;
       marker = L.marker([lat, lon]).addTo(layerGroup);
       marker.on("click", function (e) {
+        console.log(e.target)
         lat = parseFloat(e.latlng.lat).toFixed(12);
         lng = parseFloat(e.latlng.lng).toFixed(12);
-        console.log(lat, lng);
         var lati = data.getElementsByTagName("Bird");
         for (var i = 0; i < lati.length; i++) {
           var lng1 = lati[i].children[9].textContent;
           var lat1 = lati[i].children[10].textContent;
           if (lat === lat1 && lng === lng1) {
-            console.log("true");
-            console.log(lat1, lng1);
-            console.log(lati[i]);
+
             // schreibt die Daten in die Sidebar
             sidebar.setContent(
               '<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' +
                 "<br />" +
                 "Stadt: " +
-                city +
+                lati[i].children[12].textContent +
                 "<br />" +
                 "Straße: " +
                 lati[i].children[2].textContent +
                 " " +
-                houseNumber +
+                lati[i].children[13].textContent +
                 "<br />" +
                 "Vogelart: " +
                 lati[i].children[1].textContent +
@@ -324,7 +209,7 @@ function onLoad() {
                 lati[i].children[7].textContent +
                 "<br />" +
                 "Beschreibung: " +
-                bird.description +
+                lati[i].children[11].textContent +
                 "<br />" +
                 "<button type='button' class='delete' onclick='onPopupOpen()'>Löschen</button>" +
                 "<br />" +
@@ -338,8 +223,21 @@ function onLoad() {
   };
   Http.send();
 }
-function js2xml(js, wraptag){
-  if(js instanceof Object){
-    return js2xml(Object.keys(js).map(function(key){return js2xml(js[key], key);}).join('\n'), wraptag);
-   }else{return ((wraptag)?'<'+ wraptag+'>' : '' ) + js + ((wraptag)?'</'+ wraptag+'>' : '' );}
+function js2xml(js, wraptag) {
+  if (js instanceof Object) {
+    return js2xml(
+      Object.keys(js)
+        .map(function (key) {
+          return js2xml(js[key], key);
+        })
+        .join("\n"),
+      wraptag
+    );
+  } else {
+    return (
+      (wraptag ? "<" + wraptag + ">" : "") +
+      js +
+      (wraptag ? "</" + wraptag + ">" : "")
+    );
+  }
 }
