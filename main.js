@@ -24,8 +24,10 @@ var EasyButton;
 var layerGroup = L.layerGroup().addTo(mymap); //contains a layergroup of all markers
 var birdArray;
 var array = new Array(6);
+// let xml = new Object([]);
 let bird = new Object([]);
-bird.id = 1;  // wird von der Datenbank entsprechend zugewiesen
+// bird.Bird = new Object();
+
 
 onLoad();
 
@@ -53,61 +55,32 @@ document.querySelector(".closebtn").addEventListener("click", function () {
 function Save() {
   var birdArray1 = getAdress()
   console.log(birdArray1)
-  // var Adresse = ;
-  // Plz = birdArray1[5]
-  // houseNumber = birdArray1[0]
-  // city = birdArray1[2]
-
-  // Speicherung der Nutzereingaben
-  bird.Species = document.getElementById("birdSpecies").value;
-  // if(Adress !== undefined) { 
-    bird.Adress = birdArray1[1];
-  // } else{
-  //   bird.Adress =  " " //birdArray1[1].value;
-  // }
-  // console.log(bird.Adress)
-  // if (Plz !== undefined){
-    bird.Plz = birdArray1[5];
-  // }
-  // else{
-  //   bird.Plz = " " //birdArray1[5];
-  // }
-  // console.log(bird.Plz)
-  bird.NestDate = document.getElementById("date").value;
-  bird.Temperature = document.getElementById("temp").value;
-  bird.NumberChicks = document.getElementById("number").value;
+// Speicherung der Nutzereingaben
+  bird.Adress = birdArray1[1];
   bird.BoxKind = document.getElementById("type").value;
   bird.Compass = document.getElementById("loc").value;
-  bird.Longitude = lng;
   bird.Latitude = lat;
+  bird.Longitude = lng;
+  bird.NestDate = document.getElementById("date").value;
+  bird.NumberChicks = document.getElementById("number").value;
+  bird.Plz = birdArray1[5];
+  bird.Species = document.getElementById("birdSpecies").value;
+  bird.Temperature = document.getElementById("temp").value;
+  bird.houseNumber = birdArray1[0]
   bird.Message = document.getElementById("description").value;
-  // if(houseNumber !== undefined){
-    bird.houseNumber = birdArray1[0]
-  // } else {
-  //   bird.houseNumber = " " //birdArray1[0];
-  // }
-  // console.log(bird.houseNumber)
-  // if(city !== undefined){
-    bird.city = birdArray1[2]
-  // } else {
-  //   bird.city = " " //birdArray1[2];
-  // }  
-  // console.log(bird.city)
-
-  
-  
-
+  bird.city = birdArray1[2]
+  //let bird1 = new Bird(Adress, BoxKind, Compass, Latitude, Longitude, NestDate, NumberChicks, Plz, Species, Temperature, houseNumber, Message, city)
   document.querySelector(".modal").style.display = "none";
   L.marker([lat, lng]).addTo(layerGroup);
   console.log(bird)
 
-
-  var xml1 = '<Bird>\n' +  js2xml(bird) +'\n</Bird>';
+ // var xml1 = js2xml(bird)
+  var xml1 = '<?xml version="1.0" encoding="utf-8"?>\n<Bird xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BirdTrackerProject">\n' +  js2xml(bird) +'\n</Bird>';
   console.log(xml1)
   
    
   // configure a request
-  const url1 = "https://localhost:5001/Birds";
+  const url1 = "http://localhost:5000/Birds";
   const xhr = new XMLHttpRequest();
   xhr.open('POST', url1);
 
@@ -157,52 +130,6 @@ function getAdress (){
       birdArray[2] = " "
     }
   })
-  // bird.Species = document.getElementById("birdSpecies").value;
-  // // if(Adress !== undefined) { 
-  //   bird.Adress = birdArray[1];
-  // // } else{
-  // //   bird.Adress =  " " //birdArray1[1].value;
-  // // }
-  // // console.log(bird.Adress)
-  // // if (Plz !== undefined){
-  //   bird.Plz = birdArray[5];
-  // // }
-  // // else{
-  // //   bird.Plz = " " //birdArray1[5];
-  // // }
-  // // console.log(bird.Plz)
-  // bird.NestDate = document.getElementById("date").value;
-  // bird.Temperature = document.getElementById("temp").value;
-  // bird.NumberChicks = document.getElementById("number").value;
-  // bird.BoxKind = document.getElementById("type").value;
-  // bird.Compass = document.getElementById("loc").value;
-  // bird.Longitude = lng;
-  // bird.Latitude = lat;
-  // bird.description = document.getElementById("description").value;
-  // // if(houseNumber !== undefined){
-  //   bird.houseNumber = birdArray[0]
-  // // } else {
-  // //   bird.houseNumber = " " //birdArray1[0];
-  // // }
-  // // console.log(bird.houseNumber)
-  // // if(city !== undefined){
-  //   bird.city = birdArray[2]
-  // // } else {
-  // //   bird.city = " " //birdArray1[2];
-  // // }  
-  // // console.log(bird.city)
-
-  
-  
-
-  // document.querySelector(".modal").style.display = "none";
-  // L.marker([lat, lng]).addTo(layerGroup);
-  // console.log(bird)
-
-
-  // var xml1 = '<?xml version="1.0" encoding="utf-8"> \n <bird>\n' +  js2xml(bird) +'\n</bird>';
-  // console.log(xml1)
-
   return birdArray;
 }
 
@@ -343,3 +270,22 @@ function js2xml(js, wraptag){
     return js2xml(Object.keys(js).map(function(key){return js2xml(js[key], key);}).join('\n'), wraptag);
    }else{return ((wraptag)?'<'+ wraptag+'>' : '' ) + js + ((wraptag)?'</'+ wraptag+'>' : '' );}
 }
+
+//  function Bird (Adress, BoxKind, Compass, Latitude, Longitude, NestDate, NumberChicks, Plz, Species, Temperature, houseNumber, Message, city) {
+//     // let Bird = {
+//     Adress = Adress,
+//       BoxKind : BoxKind,
+//       City : city,
+//       Compass : Compass,
+//       Housenumber : houseNumber,
+//       Latitude : Latitude,
+//       Longitude : Longitude,
+//       Message : Message,
+//       NestDate : NestDate,
+//       NumberChicks : NumberChicks,
+//       Plz : Plz,
+//       Species : Species,
+//       Temperature : Temperature
+//     // }
+    
+//   }
