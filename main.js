@@ -26,7 +26,7 @@ var birdArray;
 var array = new Array(6);
 // let xml = new Object([]);
 let bird = new Object([]);
-bird.id = 1; // wird von der Datenbank entsprechend zugewiesen
+// bird.id = 1; // wird von der Datenbank entsprechend zugewiesen
 
 onLoad();
 
@@ -55,25 +55,8 @@ function Save() {
   // Speicherung der Nutzereingaben
 
   console.log(array)
-
-  bird.Species = document.getElementById("birdSpecies").value;
   bird.Adress = array[1];
-  bird.Plz = array[5];
-  bird.NestDate = document.getElementById("date").value;
-  bird.Temperature = document.getElementById("temp").value;
-  bird.NumberChicks = document.getElementById("number").value;
   bird.BoxKind = document.getElementById("type").value;
-  bird.Compass = document.getElementById("loc").value;
-  bird.Latitude = lat;
-  bird.Longitude = lng;
-  bird.NestDate = document.getElementById("date").value;
-  bird.NumberChicks = document.getElementById("number").value;
-  bird.Plz = birdArray1[5];
-  bird.Species = document.getElementById("birdSpecies").value;
-  bird.Temperature = document.getElementById("temp").value;
-  bird.houseNumber = birdArray1[0]
-  bird.Message = document.getElementById("description").value;
-  bird.houseNumber = array[0];
   if(array[2] === undefined && array[3] === undefined){
     bird.city = array[4];
   }
@@ -85,7 +68,16 @@ function Save() {
   }if(array[3] === undefined && array[4] === undefined && array[2] === undefined){
     bird.city = " "
   }
-
+  bird.Compass = document.getElementById("loc").value;
+  bird.houseNumber = array[0];
+  bird.Id = 1                                               //wird von der Datenbank entsprechend zugewiesen
+  bird.Latitude = lat;
+  bird.Longitude = lng;
+  bird.Message = document.getElementById("description").value;
+  bird.NestDate = document.getElementById("date").value;
+  bird.NumberChicks = document.getElementById("number").value;
+  bird.Plz = array[5];
+  bird.Temperature = document.getElementById("temp").value;
 
   document.querySelector(".modal").style.display = "none";
   L.marker([lat, lng]).addTo(layerGroup);
@@ -96,7 +88,7 @@ function Save() {
   
    
   // configure a request
-  const url1 = "http://localhost:5000/Birds";
+  const url1 = "https://localhost:5001/Birds";
   const xhr = new XMLHttpRequest();
   xhr.open("POST", url1);
 
@@ -163,7 +155,7 @@ function change() {
 
 function onLoad() {
   const Http = new XMLHttpRequest();
-  const url = "https://localhost:44357/Birds"; //falls es nicht klappt mit port 5001 ausprobieren bzw 44357
+  const url = "https://localhost:5001/Birds"; //falls es nicht klappt mit port 5001 ausprobieren bzw 44357
 
   Http.open("GET", url);
   Http.setRequestHeader("Accept", "application/xml");
@@ -174,8 +166,8 @@ function onLoad() {
     console.log(lati)
     birdArray = new Array(lati.length);
     for (var i = 0; i < lati.length; i++) {
-      var lon = lati[i].children[9].textContent;
-      var lat = lati[i].children[10].textContent;
+      var lon = lati[i].children[8].textContent;
+      var lat = lati[i].children[9].textContent;
       marker = L.marker([lat, lon]).addTo(layerGroup);
       marker.on("click", function (e) {
         console.log(e.target)
