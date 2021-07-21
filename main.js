@@ -260,7 +260,7 @@ function redrawHeatmap() {
 
 function onLoad() {
   const Http = new XMLHttpRequest();
-  const url = "http://localhost:5000/Birds"; //falls es nicht klappt mit port 5001 ausprobieren bzw 44357
+  const url = "https://api-birdtracker.azurewebsites.net/Birds"; //falls es nicht klappt mit port 5001 ausprobieren bzw 44357
 
   Http.open("GET", url);
   Http.setRequestHeader("Accept", "application/xml");
