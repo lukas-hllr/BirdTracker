@@ -14,6 +14,7 @@ var temp;
 var date;
 var village;
 var loc;
+var id;
 var type;
 var description;
 var houseNumber;
@@ -26,19 +27,40 @@ var birdArray;
 var array = new Array(6);
 // let xml = new Object([]);
 let bird = new Object([]);
+
 // bird.id = 1; // wird von der Datenbank entsprechend zugewiesen
+mymap.options.minZoom = 3; // maximaler zoom raus
+mymap.options.maxZoom = 18; // maximaler zoom rein
+
 
 onLoad();
 
 function onPopupOpen() {
-  mymap.removeLayer(marker);
-  sidebar.setContent(
-    '<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>'
-  );
-}
-mymap.options.minZoom = 3; // maximaler zoom raus
-mymap.options.maxZoom = 18; // maximaler zoom rein
+  // mymap.removeLayer(marker);
+  // sidebar.setContent(
+  //   '<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>'
+  // );
+  console.log("TEST")
+  console.log(id);
+  postLoeschen();
+  // console.log(loeschenbutton)
+  // postLoeschen(loeschenbutton, loeschenButtonName);  
 
+
+}
+
+function postLoeschen(){
+  var p = new XMLHttpRequest();
+  var url2 = "https://localhost:5001/Birds/" + id 
+  console.log("3" +url2);
+  p.open("DELETE",url2, true);
+  // p.setRequestHeader('Content-Type', 'application/json');
+  // p.send(JSON.stringify({
+      //was mit Datenbank machen möchten
+      
+  // }));
+
+}
 var sidebar = L.control.sidebar("sidebar", {
   // Position der Sidebar
   position: "left",
@@ -105,8 +127,9 @@ function Save() {
   xhr.onload = () => {
     console.log(xhr.responseText);
   };
-  // // Reload the current page, without using the cache
-  // document.location.reload(true);
+  // Reload the current page, without using the cache
+  location.reload(true);
+
 }
 
 function getAdress() {
@@ -179,7 +202,10 @@ function onLoad() {
           var lng1 = lati[i].children[9].textContent;
           var lat1 = lati[i].children[10].textContent;
           if (lat === lat1 && lng === lng1) {
-
+            id = lati[i].children[0].textContent;
+            var loeschenButtonName = lati[i].children[1].textContent;
+            console.log( "1" + loeschenButtonName );
+            console.log( "2 " + id);
             // schreibt die Daten in die Sidebar
             sidebar.setContent(
               '<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' +
