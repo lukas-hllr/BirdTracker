@@ -58,18 +58,18 @@ function Save() {
   bird.Adress = array[1];
   bird.BoxKind = document.getElementById("type").value;
   if(array[2] === undefined && array[3] === undefined){
-    bird.city = array[4];
+    bird.City = array[4];
   }
   if(array[2] === undefined && array[4] === undefined){
-    bird.city = array[3];
+    bird.City = array[3];
   } 
   if(array[3] === undefined && array[4] === undefined){
-    bird.city = array[2];
+    bird.City = array[2];
   }if(array[3] === undefined && array[4] === undefined && array[2] === undefined){
-    bird.city = " "
+    bird.City = " "
   }
   bird.Compass = document.getElementById("loc").value;
-  bird.houseNumber = array[0];
+  bird.Housenumber = array[0];
   bird.Id = 1                                               //wird von der Datenbank entsprechend zugewiesen
   bird.Latitude = lat;
   bird.Longitude = lng;
@@ -77,6 +77,7 @@ function Save() {
   bird.NestDate = document.getElementById("date").value;
   bird.NumberChicks = document.getElementById("number").value;
   bird.Plz = array[5];
+  bird.Species = document.getElementById("birdSpecies").value;
   bird.Temperature = document.getElementById("temp").value;
 
   document.querySelector(".modal").style.display = "none";
@@ -166,8 +167,8 @@ function onLoad() {
     console.log(lati)
     birdArray = new Array(lati.length);
     for (var i = 0; i < lati.length; i++) {
-      var lon = lati[i].children[8].textContent;
-      var lat = lati[i].children[9].textContent;
+      var lon = lati[i].children[9].textContent;
+      var lat = lati[i].children[10].textContent;
       marker = L.marker([lat, lon]).addTo(layerGroup);
       marker.on("click", function (e) {
         console.log(e.target)
