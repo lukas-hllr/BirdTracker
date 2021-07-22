@@ -69,18 +69,15 @@ function postLoeschen(){
     //var bird = JSON.parse(p.responseText);
     if (p.readyState == 4 && p.status == "204"){
       console.table("Klappt");
-      sidebar.setContent// Anzeige, dass gelöscht noch rein
-        }
+      alert("Vogel erfolgreich geloescht!");
+      // mymap.removeLayer(layerGroup)
+      onLoad();
+    }
     else {
-      console.error("Klappt nicht");
+      alert("Löschen nicht erfolgreich");
     }
   }
   p.send(null)
-  // p.setRequestHeader('Content-Type', 'application/json');
-  // p.send(JSON.stringify({
-      //was mit Datenbank machen möchten
-      
-  // }));
 
 }
 var sidebar = L.control.sidebar("sidebar", {
@@ -155,7 +152,10 @@ function Save() {
     console.log(xhr.responseText);
   };
   // Reload the current page, without using the cache
-  // window.location.href = window.location.href;
+  setTimeout (function () {
+    console.log("Neu laden")
+    onLoad();
+  }, 2000)
 
 
 }
