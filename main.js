@@ -50,10 +50,32 @@ function onPopupOpen() {
 }
 
 function postLoeschen(){
+
+
+// xhr.onload = function () {
+// 	var users = JSON.parse(xhr.responseText);
+// 	if (xhr.readyState == 4 && xhr.status == "200") {
+// 		console.table(users);
+// 	} else {
+// 		console.error(users);
+// 	}
+// }
+// p.send(null);
   var p = new XMLHttpRequest();
   var url2 = "https://localhost:5001/Birds/" + id 
   console.log("3" +url2);
   p.open("DELETE",url2, true);
+  p.onload = function () { 
+    //var bird = JSON.parse(p.responseText);
+    if (p.readyState == 4 && p.status == "204"){
+      console.table("Klappt");
+      sidebar.setContent// Anzeige, dass gelöscht noch rein
+        }
+    else {
+      console.error("Klappt nicht");
+    }
+  }
+  p.send(null)
   // p.setRequestHeader('Content-Type', 'application/json');
   // p.send(JSON.stringify({
       //was mit Datenbank machen möchten
@@ -91,7 +113,9 @@ function Save() {
     bird.City = " "
   }
   bird.Compass = document.getElementById("loc").value;
-  bird.Housenumber = array[0];
+  if (array[0] !== undefined){
+    bird.Housenumber = array[0];
+  }
   bird.Id = 1                                               //wird von der Datenbank entsprechend zugewiesen
   bird.Latitude = lat;
   bird.Longitude = lng;
@@ -99,6 +123,9 @@ function Save() {
   bird.NestDate = document.getElementById("date").value;
   bird.NumberChicks = document.getElementById("number").value;
   bird.Plz = array[5];
+  if (array[0] === undefined){
+    bird.Housenumber = array[0];
+  }
   bird.Species = document.getElementById("birdSpecies").value;
   bird.Temperature = document.getElementById("temp").value;
 
@@ -128,7 +155,8 @@ function Save() {
     console.log(xhr.responseText);
   };
   // Reload the current page, without using the cache
-  location.reload(true);
+  // window.location.href = window.location.href;
+
 
 }
 
@@ -226,7 +254,7 @@ function onLoad() {
                 "<br />" +
                 "Temperatur: " +
                 lati[i].children[5].textContent +
-                "<br />" +
+                "°C<br />" +
                 "Datum: " +
                 lati[i].children[4].textContent +
                 "<br />" +
@@ -270,21 +298,3 @@ function js2xml(js, wraptag) {
   }
 }
 
-//  function Bird (Adress, BoxKind, Compass, Latitude, Longitude, NestDate, NumberChicks, Plz, Species, Temperature, houseNumber, Message, city) {
-//     // let Bird = {
-//     Adress = Adress,
-//       BoxKind : BoxKind,
-//       City : city,
-//       Compass : Compass,
-//       Housenumber : houseNumber,
-//       Latitude : Latitude,
-//       Longitude : Longitude,
-//       Message : Message,
-//       NestDate : NestDate,
-//       NumberChicks : NumberChicks,
-//       Plz : Plz,
-//       Species : Species,
-//       Temperature : Temperature
-//     // }
-    
-//   }
