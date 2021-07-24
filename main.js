@@ -135,7 +135,7 @@ function Save() {
   
    
   // configure a request
-  const url1 = "https://localhost:5001/Birds";
+  const url1 = "http://api-birdtracker.azurewebsites.net/Birds";
   const xhr = new XMLHttpRequest();
   xhr.open("POST", url1);
 
