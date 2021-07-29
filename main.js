@@ -10,11 +10,17 @@ var heatmapBounds = L.latLngBounds(
   mymap.getBounds().getNorthWest(),
   mymap.getBounds().getSouthEast()
 );
+
+var layerGroup = L.layerGroup(); //contains a layergroup of all markers
+//layerGroup.addTo(mymap);
+
 var heatmap = L.svgOverlay(getHeatmapSVG(), heatmapBounds);
 heatmap.setZIndex(2);
 
 tiles.addTo(mymap);
 heatmap.addTo(mymap);
+
+var heatmapEnabled = true;
 
 var marker;
 var lat; //marker coordinates
@@ -32,7 +38,6 @@ var Adress;
 var city;
 var town;
 var EasyButton;
-var layerGroup = L.layerGroup().addTo(mymap); //contains a layergroup of all markers
 var birdArray;
 let bird = new Object([]);
 bird.id = 1; // wird von der Datenbank entsprechend zugewiesen
@@ -202,29 +207,67 @@ mymap.on("dragend", function onDragEnd() {
   var width = mymap.getBounds().getEast() - mymap.getBounds().getWest();
   var height = mymap.getBounds().getNorth() - mymap.getBounds().getSouth();
 
-  console.log(
-    "center:\t" +
-      mymap.getCenter() +
-      "\nwidth:\t" +
-      width +
-      "\nheight:\t" +
-      height +
-      "\nsize:\t" +
-      mymap.getSize() +
-      "\nNW:\t\t" +
-      mymap.getBounds().getNorthWest() +
-      "\nSW:\t\t" +
-      mymap.getBounds().getSouthEast()
-  );
+  // console.log(
+  //   "center:\t" +
+  //     mymap.getCenter() +
+  //     "\nwidth:\t" +
+  //     width +
+  //     "\nheight:\t" +
+  //     height +
+  //     "\nsize:\t" +
+  //     mymap.getSize() +
+  //     "\nNW:\t\t" +
+  //     mymap.getBounds().getNorthWest() +
+  //     "\nSW:\t\t" +
+  //     mymap.getBounds().getSouthEast()
+  // );
 
-  console.log(getHeatmapSVG());
+  //console.log(getHeatmapSVG());
 
-  redrawHeatmap();
+  if (heatmapEnabled) {
+    redrawHeatmap();
+    console.log("redraw heatmap");
+  }
 });
 
 mymap.on("zoomend", function () {
-  redrawHeatmap();
+  console.log(mymap.getZoom());
+  if (heatmapEnabled) {
+    if (mymap.getZoom() >= 11) {
+      //disable Heatmap, enable markers
+      console.log("disable Heatmap, enable markers");
+      heatmapEnabled = false;
+      disableHeatmap();
+    } else {
+      //redraw
+      console.log("redraw heatmap");
+      redrawHeatmap();
+    }
+  } else if (mymap.getZoom() < 11 && !heatmapEnabled) {
+    //enable Heatmap, disable markers
+    console.log("enable Heatmap, disable markers");
+    heatmapEnabled = true;
+    enableHeatmap();
+  }
 });
+
+function enableHeatmap() {
+  heatmapBounds = L.latLngBounds(
+    mymap.getBounds().getNorthWest(),
+    mymap.getBounds().getSouthEast()
+  );
+
+  heatmap = L.svgOverlay(getHeatmapSVG(), heatmapBounds);
+  heatmap.setZIndex(2);
+  heatmap.addTo(mymap);
+
+  mymap.removeLayer(layerGroup);
+}
+
+function disableHeatmap() {
+  layerGroup.addTo(mymap);
+  mymap.removeLayer(heatmap);
+}
 
 function getHeatmapSVG() {
   return SaxonJS.transform({
