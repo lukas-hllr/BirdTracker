@@ -40,8 +40,7 @@ function onPopupOpen() {
   // sidebar.setContent(
   //   '<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>'
   // );
-  console.log("TEST")
-  console.log(id);
+
   postLoeschen();
   // console.log(loeschenbutton)
   // postLoeschen(loeschenbutton, loeschenButtonName);  
@@ -51,7 +50,7 @@ function onPopupOpen() {
 
 function postLoeschen(){
 
-
+console.log(marker)
 // xhr.onload = function () {
 // 	var users = JSON.parse(xhr.responseText);
 // 	if (xhr.readyState == 4 && xhr.status == "200") {
@@ -61,25 +60,21 @@ function postLoeschen(){
 // 	}
 // }
 // p.send(null);
+ var bestaetigung = window.confirm("Wirklich löschen?")
+ if(bestaetigung){
   var p = new XMLHttpRequest();
   var url2 = "http://api-birdtracker.azurewebsites.net/Birds/" + id 
-  console.log("3" +url2);
   p.open("DELETE",url2, true);
   p.onload = function () { 
     //var bird = JSON.parse(p.responseText);
     if (p.readyState == 4 && p.status == "204"){
-      console.table("Klappt");
-      alert("Vogel erfolgreich geloescht!");
-      // mymap.removeLayer(layerGroup)
-      onLoad();
-    }
-    else {
-      alert("Löschen nicht erfolgreich");
+      location.reload();
     }
   }
   p.send(null)
-  
+  }else{
 
+  }
 }
 var sidebar = L.control.sidebar("sidebar", {
   // Position der Sidebar
@@ -95,8 +90,6 @@ document.querySelector(".closebtn").addEventListener("click", function () {
 
 function Save() {
   // Speicherung der Nutzereingaben
-
-  console.log(array)
   bird.Adress = array[1];
   bird.BoxKind = document.getElementById("type").value;
   if(array[2] === undefined && array[3] === undefined){
@@ -117,7 +110,13 @@ function Save() {
   bird.Id = 1                                               //wird von der Datenbank entsprechend zugewiesen
   bird.Latitude = lat;
   bird.Longitude = lng;
-  bird.Message = document.getElementById("description").value;
+  var text = document.getElementById("description").value;
+  if(text !== undefined){
+    bird.Message = text;
+  }else{
+    bird.Message = " ";
+  }
+  
   bird.NestDate = document.getElementById("date").value;
   bird.NumberChicks = document.getElementById("number").value;
   bird.Plz = array[5];
@@ -128,12 +127,11 @@ function Save() {
   bird.Temperature = document.getElementById("temp").value;
 
   document.querySelector(".modal").style.display = "none";
-  L.marker([lat, lng]).addTo(layerGroup);
+  //L.marker([lat, lng]).addTo(layerGroup);
 
  // var xml1 = js2xml(bird)
   var xml1 = '<?xml version="1.0" encoding="utf-8"?>\n<Bird xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BirdTrackerProject">\n' +  js2xml(bird) +'\n</Bird>';
-  console.log(xml1)
-  
+
    
   // configure a request
   const url1 = "http://api-birdtracker.azurewebsites.net/Birds";
@@ -146,17 +144,20 @@ function Save() {
   // xhr.setRequestHeader(
 
   // send request
-  xhr.send(xml1);
+  
+  xhr.send(xml1)
 
   // listen for `load` event
-  xhr.onload = () => {
-    console.log(xhr.responseText);
+  xhr.onload = (e) => {
+    if(xhr.status === 400){
+      alert("Bitte alle Felder ausfüllen! Beschreibung optional")
+      e.preventDefault();
+    }
   };
   // Reload the current page, without using the cache
   setTimeout (function () {
-    console.log("Neu laden")
     onLoad();
-  }, 2000)
+  }, 1)
 
 
 }
@@ -216,14 +217,12 @@ function onLoad() {
   Http.onload = () => {
     const data = Http.responseXML;
     var lati = data.getElementsByTagName("Bird");
-    console.log(lati)
     birdArray = new Array(lati.length);
     for (var i = 0; i < lati.length; i++) {
       var lon = lati[i].children[9].textContent;
       var lat = lati[i].children[10].textContent;
       marker = L.marker([lat, lon]).addTo(layerGroup);
       marker.on("click", function (e) {
-        console.log(e.target)
         lat = parseFloat(e.latlng.lat).toFixed(12);
         lng = parseFloat(e.latlng.lng).toFixed(12);
         var lati = data.getElementsByTagName("Bird");
@@ -232,9 +231,6 @@ function onLoad() {
           var lat1 = lati[i].children[10].textContent;
           if (lat === lat1 && lng === lng1) {
             id = lati[i].children[0].textContent;
-            var loeschenButtonName = lati[i].children[1].textContent;
-            console.log( "1" + loeschenButtonName );
-            console.log( "2 " + id);
             // schreibt die Daten in die Sidebar
             sidebar.setContent(
               '<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>' +
