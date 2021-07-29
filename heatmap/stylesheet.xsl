@@ -22,6 +22,8 @@
     <xsl:param name="pixel_size" required="yes"/>
     <xsl:param name="cr" required="yes"/>
 
+    <xsl:param name="zoom" required="yes"/>
+
     <xsl:template name="generateExampleHeatPoint">
         <xsl:param name="angle" as="xs:integer" required="yes"/>
         <xsl:param name="circleRadius" as="xs:integer" required="yes"/>
@@ -35,7 +37,7 @@
                 <xsl:variable name="newY" as="xs:integer" select="xs:integer(round($r * math:cos($angle * math:pi() div 180 )))"/>
                 <xsl:choose>
                     <xsl:when test="not($prevX eq $newX and $prevY eq $newY)">
-                        <xsl:variable name="value" as="xs:double" select="($circleRadius - math:sqrt(math:pow($newX, 2) + math:pow($newY, 2))*0.85) div $circleRadius"/>
+                        <xsl:variable name="value" as="xs:double" select="(($circleRadius - math:sqrt(math:pow($newX, 2) + math:pow($newY, 2))*0.85) div $circleRadius)*$zoom"/>
                         <dataPoint gridX="{$newX}" gridY="{$newY}" value="{$value}"/>
                         <dataPoint gridX="{- $newX}" gridY="{$newY}" value="{$value}"/>
                         <dataPoint gridX="{$newX}" gridY="{- $newY}" value="{$value}"/>
@@ -197,7 +199,7 @@
                                 </xsl:choose> 
                             </xsl:variable>
                             <xsl:variable name="h">
-                                <xsl:value-of select="(1.0 - $value) * 240"/> 
+                                <xsl:value-of select="(1.0 - $value) * 200"/> 
                             </xsl:variable>
                             <xsl:value-of select="concat('fill: hsla(', $h, ', 100%, 50%, ', 0.6, ');')"/>
                         </xsl:attribute>

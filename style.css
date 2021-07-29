@@ -129,19 +129,17 @@ textarea {
   z-index: 2000;
 }
 .delete {
-  background-color: #e2eea3;
-  border: 2px solid white;
+  background-color: white;
+  border: 2px solid #b6d128;
   border-radius: 30px;
   text-decoration: none;
   padding: 10px 28px;
-  color: white;
+  color: #b6d128;
   margin-top: 10px;
   font-family: "Poppins", sans-serif;
 }
 .delete:hover {
-  background-color: white;
-  color: #e2eea3;
-  border: 2px solid #e2eea3;
+  background-color: #e2eea3;
 }
 .leaflet-popup-content {
   text-align: center;

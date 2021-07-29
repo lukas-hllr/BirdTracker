@@ -1,7 +1,8 @@
 const attribution =
   '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
-const mymap = L.map("BirdTrackerMap").setView([51.163361, 10.447683], 6);
+const mymap = L.map("BirdTrackerMap");
+mymap.setView([51.163361, 10.447683], 3);
 
 const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const tiles = L.tileLayer(tileUrl, { attribution });
@@ -189,7 +190,7 @@ function change() {
   $.get(
     "//nominatim.openstreetmap.org/search?format=json&q=" + test,
     function (data) {
-      mymap.setView([data[0].lat, data[0].lon], 18);
+      mymap.flyTo([data[0].lat, data[0].lon], 18);
     }
   );
 }
@@ -198,22 +199,22 @@ mymap.on("dragend", function onDragEnd() {
   var width = mymap.getBounds().getEast() - mymap.getBounds().getWest();
   var height = mymap.getBounds().getNorth() - mymap.getBounds().getSouth();
 
-  // console.log(
-  //   "center:\t" +
-  //     mymap.getCenter() +
-  //     "\nwidth:\t" +
-  //     width +
-  //     "\nheight:\t" +
-  //     height +
-  //     "\nsize:\t" +
-  //     mymap.getSize() +
-  //     "\nNW:\t\t" +
-  //     mymap.getBounds().getNorthWest() +
-  //     "\nSW:\t\t" +
-  //     mymap.getBounds().getSouthEast()
-  // );
+  console.log(
+    "center:\t" +
+      mymap.getCenter() +
+      "\nwidth:\t" +
+      width +
+      "\nheight:\t" +
+      height +
+      "\nsize:\t" +
+      mymap.getSize() +
+      "\nNW:\t\t" +
+      mymap.getBounds().getNorthWest() +
+      "\nSW:\t\t" +
+      mymap.getBounds().getSouthEast()
+  );
 
-  //console.log(getHeatmapSVG());
+  console.log(getHeatmapSVG());
 
   if (heatmapEnabled) {
     redrawHeatmap();
@@ -261,6 +262,7 @@ function disableHeatmap() {
 }
 
 function getHeatmapSVG() {
+  console.log((mymap.getZoom() - 1) / 9);
   return SaxonJS.transform({
     execution: "async",
     stylesheetLocation: "heatmap/stylesheet.sef.json",
@@ -275,6 +277,7 @@ function getHeatmapSVG() {
       vp_height: mymap.getSize().y,
       pixel_size: 8,
       cr: "4",
+      zoom: 0.129 * mymap.getZoom() - 0.414,
     },
   }).principalResult.firstElementChild;
 }
@@ -359,6 +362,7 @@ function onLoad() {
     }
   };
   Http.send();
+  mymap.flyTo([51.163361, 10.447683], 6);
 }
 function js2xml(js, wraptag) {
   if (js instanceof Object) {
