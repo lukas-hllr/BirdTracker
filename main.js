@@ -62,7 +62,7 @@ function postLoeschen(){
 // }
 // p.send(null);
   var p = new XMLHttpRequest();
-  var url2 = "https://localhost:5001/Birds/" + id 
+  var url2 = "http://api-birdtracker.azurewebsites.net/Birds/" + id 
   console.log("3" +url2);
   p.open("DELETE",url2, true);
   p.onload = function () { 
@@ -78,6 +78,7 @@ function postLoeschen(){
     }
   }
   p.send(null)
+  
 
 }
 var sidebar = L.control.sidebar("sidebar", {
@@ -207,7 +208,7 @@ function change() {
 
 function onLoad() {
   const Http = new XMLHttpRequest();
-  const url = "https://localhost:5001/Birds"; //falls es nicht klappt mit port 5001 ausprobieren bzw 44357
+  const url = "http://api-birdtracker.azurewebsites.net/Birds"; //falls es nicht klappt mit port 5001 ausprobieren bzw 44357
 
   Http.open("GET", url);
   Http.setRequestHeader("Accept", "application/xml");
