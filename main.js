@@ -25,55 +25,30 @@ var EasyButton;
 var layerGroup = L.layerGroup().addTo(mymap); //contains a layergroup of all markers
 var birdArray;
 var array = new Array(6);
-// let xml = new Object([]);
 let bird = new Object([]);
 
-// bird.id = 1; // wird von der Datenbank entsprechend zugewiesen
 mymap.options.minZoom = 3; // maximaler zoom raus
 mymap.options.maxZoom = 18; // maximaler zoom rein
-
 
 onLoad();
 
 function onPopupOpen() {
-  // mymap.removeLayer(marker);
-  // sidebar.setContent(
-  //   '<div class="box"><h2>Suche</h2><form><input class="sideSuche" type="text" name="" placeholder="Adresse..."><input onclick="change()" class="sideSuche" type="button" name="" value="Suche"></form>'
-  // );
-
   postLoeschen();
-  // console.log(loeschenbutton)
-  // postLoeschen(loeschenbutton, loeschenButtonName);  
-
-
 }
 
-function postLoeschen(){
-
-console.log(marker)
-// xhr.onload = function () {
-// 	var users = JSON.parse(xhr.responseText);
-// 	if (xhr.readyState == 4 && xhr.status == "200") {
-// 		console.table(users);
-// 	} else {
-// 		console.error(users);
-// 	}
-// }
-// p.send(null);
- var bestaetigung = window.confirm("Wirklich löschen?")
- if(bestaetigung){
-  var p = new XMLHttpRequest();
-  var url2 = "http://api-birdtracker.azurewebsites.net/Birds/" + id 
-  p.open("DELETE",url2, true);
-  p.onload = function () { 
-    //var bird = JSON.parse(p.responseText);
-    if (p.readyState == 4 && p.status == "204"){
-      location.reload();
-    }
-  }
-  p.send(null)
-  }else{
-
+function postLoeschen() {
+  var bestaetigung = window.confirm("Wirklich löschen?");
+  if (bestaetigung) {
+    var p = new XMLHttpRequest();
+    var url2 = "http://api-birdtracker.azurewebsites.net/Birds/" + id;
+    p.open("DELETE", url2, true);
+    p.onload = function () {
+      if (p.readyState == 4 && p.status == "204") {
+        location.reload();
+      }
+    };
+    p.send(null);
+  } else {
   }
 }
 var sidebar = L.control.sidebar("sidebar", {
@@ -92,47 +67,50 @@ function Save() {
   // Speicherung der Nutzereingaben
   bird.Adress = array[1];
   bird.BoxKind = document.getElementById("type").value;
-  if(array[2] === undefined && array[3] === undefined){
+  if (array[2] === undefined && array[3] === undefined) {
     bird.City = array[4];
   }
-  if(array[2] === undefined && array[4] === undefined){
+  if (array[2] === undefined && array[4] === undefined) {
     bird.City = array[3];
-  } 
-  if(array[3] === undefined && array[4] === undefined){
+  }
+  if (array[3] === undefined && array[4] === undefined) {
     bird.City = array[2];
-  }if(array[3] === undefined && array[4] === undefined && array[2] === undefined){
-    bird.City = " "
+  }
+  if (
+    array[3] === undefined &&
+    array[4] === undefined &&
+    array[2] === undefined
+  ) {
+    bird.City = " ";
   }
   bird.Compass = document.getElementById("loc").value;
-  if (array[0] !== undefined){
+  if (array[0] !== undefined) {
     bird.Housenumber = array[0];
   }
-  bird.Id = 1                                               //wird von der Datenbank entsprechend zugewiesen
+  bird.Id = 1; //wird von der Datenbank entsprechend zugewiesen
   bird.Latitude = lat;
   bird.Longitude = lng;
   var text = document.getElementById("description").value;
-  if(text !== undefined){
+  if (text !== undefined) {
     bird.Message = text;
-  }else{
+  } else {
     bird.Message = " ";
   }
-  
   bird.NestDate = document.getElementById("date").value;
   bird.NumberChicks = document.getElementById("number").value;
   bird.Plz = array[5];
-  if (array[0] === undefined){
+  if (array[0] === undefined) {
     bird.Housenumber = array[0];
   }
   bird.Species = document.getElementById("birdSpecies").value;
   bird.Temperature = document.getElementById("temp").value;
-
   document.querySelector(".modal").style.display = "none";
-  //L.marker([lat, lng]).addTo(layerGroup);
 
- // var xml1 = js2xml(bird)
-  var xml1 = '<?xml version="1.0" encoding="utf-8"?>\n<Bird xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BirdTrackerProject">\n' +  js2xml(bird) +'\n</Bird>';
+  var xml1 =
+    '<?xml version="1.0" encoding="utf-8"?>\n<Bird xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/BirdTrackerProject">\n' +
+    js2xml(bird) +
+    "\n</Bird>";
 
-   
   // configure a request
   const url1 = "http://api-birdtracker.azurewebsites.net/Birds";
   const xhr = new XMLHttpRequest();
@@ -141,25 +119,18 @@ function Save() {
   // set headers
   xhr.setRequestHeader("Content-Type", "application/xml");
   xhr.setRequestHeader("Accept", "application/xml");
-  // xhr.setRequestHeader(
-
-  // send request
-  
-  xhr.send(xml1)
-
+  xhr.send(xml1);
   // listen for `load` event
   xhr.onload = (e) => {
-    if(xhr.status === 400){
-      alert("Bitte alle Felder ausfüllen! Beschreibung optional")
+    if (xhr.status === 400) {
+      alert("Bitte alle Felder ausfüllen! Beschreibung optional");
       e.preventDefault();
     }
   };
   // Reload the current page, without using the cache
-  setTimeout (function () {
+  setTimeout(function () {
     onLoad();
-  }, 1)
-
-
+  }, 1);
 }
 
 function getAdress() {
@@ -213,7 +184,6 @@ function onLoad() {
 
   Http.open("GET", url);
   Http.setRequestHeader("Accept", "application/xml");
-  // Http.responseType = 'xml'
   Http.onload = () => {
     const data = Http.responseXML;
     var lati = data.getElementsByTagName("Bird");
@@ -294,4 +264,3 @@ function js2xml(js, wraptag) {
     );
   }
 }
-
