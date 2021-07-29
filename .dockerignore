@@ -1,3 +1,6 @@
 # files
+.dockerignore
 Dockerfile*
+.gitignore
+.git
 **/*.md
