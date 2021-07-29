@@ -146,7 +146,7 @@ function Save() {
   // Reload the current page, without using the cache
   setTimeout(function () {
     onLoad();
-  }, 1);
+  }, 100);
 }
 
 function getAdress() {
