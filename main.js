@@ -2,7 +2,7 @@ const attribution =
   '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 
 const mymap = L.map("BirdTrackerMap");
-mymap.setView([51.163361, 10.447683], 3);
+mymap.setView([51.163361, 10.447683], 6);
 
 const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const tiles = L.tileLayer(tileUrl, { attribution });
@@ -354,7 +354,6 @@ function onLoad() {
     heatmap.addTo(mymap);
   };
   Http.send();
-  mymap.flyTo([51.163361, 10.447683], 6);
 }
 function js2xml(js, wraptag) {
   if (js instanceof Object) {
