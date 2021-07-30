@@ -7,19 +7,14 @@ mymap.setView([51.163361, 10.447683], 3);
 const tileUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const tiles = L.tileLayer(tileUrl, { attribution });
 
-var heatmapBounds = L.latLngBounds(
-  mymap.getBounds().getNorthWest(),
-  mymap.getBounds().getSouthEast()
-);
-
 var layerGroup = L.layerGroup(); //contains a layergroup of all markers
 //layerGroup.addTo(mymap);
 
-var heatmap = L.svgOverlay(getHeatmapSVG(), heatmapBounds);
-heatmap.setZIndex(2);
+var heatmap;
 
 tiles.addTo(mymap);
-heatmap.addTo(mymap);
+
+var data;
 
 var heatmapEnabled = true;
 
@@ -256,7 +251,7 @@ function getHeatmapSVG() {
   return SaxonJS.transform({
     execution: "async",
     stylesheetLocation: "heatmap/stylesheet.sef.json",
-    sourceLocation: "heatmap/data.xml",
+    sourceNode: data,
     destination: "document",
     stylesheetParams: {
       vp_tl_lng: mymap.getBounds().getNorthWest().lng,
@@ -292,7 +287,7 @@ function onLoad() {
   Http.open("GET", url);
   Http.setRequestHeader("Accept", "application/xml");
   Http.onload = () => {
-    const data = Http.responseXML;
+    data = Http.responseXML;
     var lati = data.getElementsByTagName("Bird");
     birdArray = new Array(lati.length);
     for (var i = 0; i < lati.length; i++) {
@@ -350,6 +345,13 @@ function onLoad() {
         }
       });
     }
+    heatmapBounds = L.latLngBounds(
+      mymap.getBounds().getNorthWest(),
+      mymap.getBounds().getSouthEast()
+    );
+    heatmap = L.svgOverlay(getHeatmapSVG(), heatmapBounds);
+    heatmap.setZIndex(2);
+    heatmap.addTo(mymap);
   };
   Http.send();
   mymap.flyTo([51.163361, 10.447683], 6);
