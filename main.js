@@ -345,13 +345,12 @@ function onLoad() {
         }
       });
     }
-    heatmapBounds = L.latLngBounds(
-      mymap.getBounds().getNorthWest(),
-      mymap.getBounds().getSouthEast()
-    );
-    heatmap = L.svgOverlay(getHeatmapSVG(), heatmapBounds);
-    heatmap.setZIndex(2);
-    heatmap.addTo(mymap);
+    if (heatmapEnabled) {
+      if(mymap.hasLayer(heatmap)){
+        mymap.removeLayer(heatmap);
+      }
+      enableHeatmap();
+    }
   };
   Http.send();
 }
