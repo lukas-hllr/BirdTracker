@@ -199,45 +199,36 @@ mymap.on("dragend", function onDragEnd() {
   var width = mymap.getBounds().getEast() - mymap.getBounds().getWest();
   var height = mymap.getBounds().getNorth() - mymap.getBounds().getSouth();
 
-  console.log(
-    "center:\t" +
-      mymap.getCenter() +
-      "\nwidth:\t" +
-      width +
-      "\nheight:\t" +
-      height +
-      "\nsize:\t" +
-      mymap.getSize() +
-      "\nNW:\t\t" +
-      mymap.getBounds().getNorthWest() +
-      "\nSW:\t\t" +
-      mymap.getBounds().getSouthEast()
-  );
-
-  console.log(getHeatmapSVG());
+  "center:\t" +
+    mymap.getCenter() +
+    "\nwidth:\t" +
+    width +
+    "\nheight:\t" +
+    height +
+    "\nsize:\t" +
+    mymap.getSize() +
+    "\nNW:\t\t" +
+    mymap.getBounds().getNorthWest() +
+    "\nSW:\t\t" +
+    mymap.getBounds().getSouthEast();
 
   if (heatmapEnabled) {
     redrawHeatmap();
-    console.log("redraw heatmap");
   }
 });
 
 mymap.on("zoomend", function () {
-  console.log(mymap.getZoom());
   if (heatmapEnabled) {
     if (mymap.getZoom() >= 11) {
       //disable Heatmap, enable markers
-      console.log("disable Heatmap, enable markers");
       heatmapEnabled = false;
       disableHeatmap();
     } else {
       //redraw
-      console.log("redraw heatmap");
       redrawHeatmap();
     }
   } else if (mymap.getZoom() < 11 && !heatmapEnabled) {
     //enable Heatmap, disable markers
-    console.log("enable Heatmap, disable markers");
     heatmapEnabled = true;
     enableHeatmap();
   }
@@ -262,7 +253,6 @@ function disableHeatmap() {
 }
 
 function getHeatmapSVG() {
-  console.log((mymap.getZoom() - 1) / 9);
   return SaxonJS.transform({
     execution: "async",
     stylesheetLocation: "heatmap/stylesheet.sef.json",
